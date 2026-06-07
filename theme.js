@@ -1,4 +1,4 @@
-/* La Staffetta — theme toggle (light / dark).
+/* La Staffetta theme toggle (light / dark).
    The no-flash <head> script already set data-theme before paint.
    This wires the toggle button(s), persists the choice, keeps aria in sync,
    follows the system when the user has not chosen, and broadcasts a
