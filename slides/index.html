@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Staffetta · The Relay · Slides</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<style>
+  /* ============================================================
+     La Staffetta · design system (shared with the booklet)
+     Canonical spec: 04_deliverables/DESIGN_SYSTEM.md
+     - Antarctica Beta VAR (sans) for everything structural.
+     - Editorial New (serif italic) for small accents only: here, the
+       figure captions on the full-bleed visual slides. Never body.
+     - Magenta #FE52B6 is the single accent, earned not decorative:
+       headings are ink by default; magenta heads are occasional.
+     - Body copy is softened ink (--body), never near-black.
+     - Letter-spacing always negative. No em dashes. No drop caps.
+     Fonts are embedded so the deck renders identically anywhere.
+     ============================================================ */
+  @font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 550;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:300 550;font-style:italic;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:600 800;font-style:normal;font-display:swap;}
+
+  :root{
+    --magenta:#FE52B6; --magenta-tint:#FFE4F3; --magenta-deep:#d62f93;
+    --ink:#161616; --body:#5e5e5e; --grey:#6a6a6a; --line:#e7e7e7; --cream:#f7f1e8;
+    --display:"Antarctica Beta VAR","Arial Narrow",sans-serif;
+    --sans:"Antarctica Beta VAR","Helvetica Neue",Arial,sans-serif;
+    --serif:"Editorial New",Georgia,serif; /* small accents / captions only */
+  }
+  /* base text is softened body ink; headings + voice statements override to --ink/--magenta */
+  .reveal{ font-family:var(--sans); color:var(--body); font-size:30px; letter-spacing:-0.01em; }
+  .reveal .slides{ text-align:left; }
+  .reveal .slides section{ height:100%; }
+  html.print-pdf .reveal .slides section{ min-height:100%; }
+  /* Reveal forces display:block on the present slide, overriding any flex on the
+     section, so nothing was ever vertically centered. Re-assert flex with matching
+     specificity (our CSS loads after reveal.css, so it wins on source order). */
+  .reveal .slides section.present{ display:flex !important; flex-direction:column; justify-content:center; }
+  .reveal .slides section.visual.present{ display:block !important; } /* full-bleed image fills instead */
+  .reveal-viewport{ background:#fff; }
+  /* progress + controls in brand magenta; arrows kept small + unobtrusive */
+  .reveal .progress{ color:var(--magenta); height:4px; }
+  .reveal .controls{ color:var(--magenta); transform:scale(0.55); transform-origin:100% 100%; right:14px; bottom:8px; }
+  .reveal .slide-number{ background:transparent; color:var(--grey); font-family:var(--display); }
+
+  /* headings: ink by default; magenta is earned via .mag, not the default */
+  .reveal h1,.reveal h2,.reveal h3{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; line-height:0.98; color:var(--ink); text-transform:none; margin:0; }
+  .reveal h1{ font-size:2.4em; }
+  .reveal h2{ font-size:1.7em; letter-spacing:-0.035em; }
+  .reveal h1.mag,.reveal h2.mag,.reveal h3.mag{ color:var(--magenta); }
+  .mag{ color:var(--magenta); }
+  .eyebrow{ font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; font-size:0.5em; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); }
+  .eyebrow.w{ color:rgba(255,255,255,0.85); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:1.05em; line-height:1.45; letter-spacing:-0.01em; }
+  .small{ font-size:0.62em; color:var(--grey); }
+  .reveal section.center{ display:flex; flex-direction:column; justify-content:center; }
+
+  .reveal .slides section{ padding:60px 70px; box-sizing:border-box; }
+  /* Native feel: no pinned top bar, no per-slide footer. The progress bar + arrows
+     carry navigation; the kicker rides in-flow above the heading, centered with it. */
+  .toplabel{ font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; font-size:0.46em; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin-bottom:20px; }
+
+  section.divider{ background:var(--magenta); }
+  .reveal.ondark .controls{ color:#fff; } /* arrows stay legible on magenta dividers */
+  section.divider h1,section.divider h2{ color:#fff; }
+  section.divider .eyebrow{ color:rgba(255,255,255,0.8); }
+  section.divider .sub{ font-family:var(--display); font-weight:500; font-variation-settings:"wght" 500; color:#fff; font-size:0.8em; letter-spacing:-0.02em; margin-top:14px; }
+
+  .kw{ display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+  .kw span{ font-family:var(--display); font-weight:600; font-variation-settings:"wght" 600; font-size:0.5em; color:#fff; background:var(--magenta); border-radius:30px; padding:7px 16px; letter-spacing:-0.01em; }
+
+  /* the "voice": claim / pull statement, sans 500, near-black */
+  .claim{ font-family:var(--sans); font-weight:500; font-variation-settings:"wght" 500; font-size:1.35em; line-height:1.3; letter-spacing:-0.02em; color:var(--ink); }
+
+  /* reveal forces display:block on the present slide, so flex centering on the section never wins.
+     Let the img box fill the slide and center the picture inside it with object-fit instead. */
+  section.visual{ padding:0 !important; background:#fff; position:relative; }
+  section.visual img{ display:block; width:100%; height:100%; object-fit:contain; object-position:center; }
+  /* figure caption: Editorial New italic on a translucent pill, matching the booklet's .vcap */
+  .reveal .vcap{ position:absolute; left:28px; bottom:24px; font-family:var(--serif); font-style:italic; font-size:0.6em; line-height:1.3; color:var(--grey); background:rgba(255,255,255,0.92); padding:6px 12px; border-radius:6px; max-width:62%; }
+
+  .split{ display:flex; gap:46px; align-items:center; }
+  .split .txt{ flex:1; }
+  .split .pic{ flex:1.1; }
+  .split .pic img{ width:100%; border-radius:10px; display:block; }
+  .reveal p{ line-height:1.4; color:var(--body); }
+  .reveal p + p{ margin-top:0.6em; }
+
+  .three{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:34px; margin-top:30px; }
+  .three .c{ border-top:1px solid var(--line); padding-top:14px; }
+  .three .c b{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; font-size:0.72em; letter-spacing:-0.02em; display:block; color:var(--ink); }
+  .three .c .k{ font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; font-size:0.42em; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin:6px 0 10px; }
+  .three .c p{ font-size:0.58em; line-height:1.4; color:var(--body); }
+
+  /* big magenta statement */
+  .big{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; color:var(--magenta); font-size:2.1em; line-height:1.05; }
+
+  .phone{ width:230px; aspect-ratio:9/19; background:#0c0c0c; border-radius:30px; padding:8px; box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+  .phone .scr{ width:100%; height:100%; border-radius:23px; overflow:hidden; position:relative; }
+  .phone .scr img{ width:100%; height:100%; object-fit:cover; object-position:64% 46%; }
+  .phone .node{ position:absolute; width:26px; height:26px; transform:translate(-50%,-50%); }
+  .phone .node .r{ position:absolute; inset:0; border:2px solid #fff; border-radius:50%; box-shadow:0 0 0 2px rgba(254,82,182,.7); }
+  .phone .node .c{ position:absolute; inset:8px; background:var(--magenta); border-radius:50%; }
+  .phone .bar{ position:absolute; top:0; left:0; right:0; height:34px; background:rgba(255,255,255,0.92); display:flex; align-items:center; padding:0 14px; font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; font-size:11px; color:var(--ink); }
+  .phone .bar .live{ margin-left:auto; background:var(--magenta); color:#fff; font-size:9px; padding:3px 8px; border-radius:20px; }
+
+  /* fragment motion: restrained fade-up, ease-out (no bounce) */
+  .reveal .fragment.fade-up{ opacity:0; transform:translateY(18px); transition:all .5s cubic-bezier(.2,.7,.2,1); }
+  .reveal .fragment.fade-up.visible{ opacity:1; transform:none; }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- 1 TITLE -->
+  <section class="center" data-transition="fade">
+    <div class="eyebrow">TIUS 2026 · Politecnico di Milano · School of Design</div>
+    <h1 style="margin-top:20px;">La Staffetta <span class="mag">·</span><br>The Relay</h1>
+    <div class="claim fragment fade-up" style="margin-top:26px;">Belonging is not about being invited to stay.<br><span class="mag">It is about having a reason to return.</span></div>
+    <div class="kw fragment fade-up"><span>reciprocity</span><span>exchange</span><span>ritual</span><span>encounter</span><span>collective memory</span></div>
+    <aside class="notes">I am Efe. This is La Staffetta, The Relay, my final project for TIUS. One sentence holds the whole thing: belonging is not about being invited to stay, it is about having a reason to return. I will walk the chain of decisions that got me here.</aside>
+  </section>
+
+  <!-- 2 MANIFESTO -->
+  <section class="center">
+    <div class="toplabel">Manifesto</div>
+    <div class="big" style="font-size:1.7em; max-width:20em;">Design for a sense of belonging, coexistence, and informal participation.</div>
+    <p class="lede fragment fade-up" style="margin-top:30px; max-width:24em;">Togetherness is not the simple sharing of space. It is the real possibility of being present, visible, comfortable, and involved within it.</p>
+    <aside class="notes">Block 01 framed the question. Campus Durando's transitional spaces organise movement well, but not belonging. Togetherness is not sharing space, it is the real possibility of being present and involved.</aside>
+  </section>
+
+  <!-- 3 THE OVALE -->
+  <section>
+    <div class="toplabel">Block 01 · The site</div>
+    <div class="split">
+      <div class="txt">
+        <h2 class="mag">The Ovale</h2>
+        <p class="fragment fade-up" style="margin-top:18px;">A transitional space at Campus Durando. People pass through, sometimes stop, rarely linger.</p>
+        <p class="fragment fade-up">It offers visibility but not always invitation. It reveals the tension the project turns on: the difference between <span class="mag">circulation</span> and <span class="mag">belonging</span>.</p>
+      </div>
+      <div class="pic"><img src="img/scene.jpg" alt="The Ovale at Campus Durando with the Relay Cabinet on the path" /></div>
+    </div>
+    <aside class="notes">I chose the Ovale because it sits between flows. Many pass, few linger. It is efficient as a corridor and ambiguous as a place. That gap is the leverage point.</aside>
+  </section>
+
+  <!-- 4 PERSONAS -->
+  <section>
+    <div class="toplabel">Block 01 · Personas</div>
+    <h2>Three primary personas</h2>
+    <div class="three">
+      <div class="c fragment fade-up"><b>Newcomer</b><div class="k">Visible invitations</div><p>Reads cues before acting, will not initiate. Needs a first-time signal that says this is for you too.</p></div>
+      <div class="c fragment fade-up"><b>International Student</b><div class="k">Low-threshold</div><p>Partial campus literacy. Needs language-light legibility, not improvising in Italian.</p></div>
+      <div class="c fragment fade-up"><b>Student Organizer</b><div class="k">A micro-platform</div><p>The anchor persona. Needs somewhere to initiate in public without booking or permitting it.</p></div>
+    </div>
+    <aside class="notes">Three primary personas, each needing something the Ovale does not give: legibility, low-threshold entry, a flexible micro-platform. The Organizer is the anchor, but the relay serves all three through one low-stakes action.</aside>
+  </section>
+
+  <!-- 5 CASES -->
+  <section>
+    <div class="toplabel">Block 01 · Reference cases</div>
+    <h2>Three cases, one reading</h2>
+    <div class="three">
+      <div class="c fragment fade-up"><b>Kiosk of Reciprocity</b><div class="k">Milan 2024</div><p>A small, mobile, open node turns passing space into a place of encounter.</p></div>
+      <div class="c fragment fade-up"><b>Regine di Periferia</b><div class="k">Milan 2024</div><p>Legitimacy is built through participation, not delivered as a finished object.</p></div>
+      <div class="c fragment fade-up"><b>Kiosk of Solidarity</b><div class="k">Berlin 2023</div><p>When a node carries content, it becomes infrastructure rather than furniture.</p></div>
+    </div>
+    <p class="small fragment fade-up" style="margin-top:26px;">Small, temporary, visible beats large, permanent, generic. The object must carry content. Participation precedes form.</p>
+    <aside class="notes">I read three precedents through three lenses, spatial, participatory, social innovation. The shared takeaway: small and content-carrying beats large and generic, and participation comes before form.</aside>
+  </section>
+
+  <!-- 6 DIRECTION -->
+  <section class="center">
+    <div class="toplabel">Block 01 · Direction</div>
+    <div class="big" style="max-width:18em;">Transitional spaces must create a greater sense of belonging, encouraging people to stay.</div>
+    <aside class="notes">Block 01 closed with this direction. Block 02 turned it into a concept.</aside>
+  </section>
+
+  <!-- 7 BLOCK 02 DIVIDER -->
+  <section class="divider center" data-transition="slide" data-state="ondark">
+    <div class="eyebrow w">Block 02</div>
+    <h1 style="margin-top:14px;">Concept<br>Generation</h1>
+    <div class="sub">Three concepts narrowed to one.</div>
+    <aside class="notes">Block 02: concept generation.</aside>
+  </section>
+
+  <!-- 8 CONCEPT FUNNEL (visual) -->
+  <section class="visual"><img src="img/fig-03.png" alt="Concept funnel: three concepts consolidate around La Staffetta" />
+    <div class="vcap">Concept funnel. Soglia and Zona Grigia narrow to La Staffetta on four criteria.</div>
+    <aside class="notes">Three concepts emerged. Soglia treated the floor as a medium. Zona Grigia refused to declare a purpose. La Staffetta builds a chain. I developed La Staffetta because it carries through service-design artifacts and keeps the visual identity.</aside>
+  </section>
+
+  <!-- 9 LA STAFFETTA -->
+  <section>
+    <div class="toplabel">Block 02 · The idea</div>
+    <div class="split">
+      <div class="txt">
+        <h2 class="mag">La Staffetta</h2>
+        <p class="fragment fade-up" style="margin-top:18px;">Small wooden exchange stations in the Ovale. Leave something, take something. The catch is the <span class="mag">link</span>: what you take comes with a prompt connected to what the previous person left.</p>
+        <p class="fragment fade-up">Two strangers, who never meet, in conversation through a third thing.</p>
+      </div>
+      <div class="pic"><img src="img/cabinet.jpg" alt="The Relay Cabinet, a wooden grid of cubbies with magenta interiors" /></div>
+    </div>
+    <aside class="notes">The cabinet: a wooden grid of cubbies, magenta painted only inside, so an empty cubby reads as invitation. Leave something, take something, and the object you take comes with a prompt linked to the previous person. The link is what turns exchange into a chain.</aside>
+  </section>
+
+  <!-- 10 BO LEGGE -->
+  <section class="center">
+    <div class="toplabel">Block 02 · Lineage</div>
+    <h2 style="max-width:18em;">A local lineage: BO LEGGE</h2>
+    <p class="lede fragment fade-up" style="margin-top:20px; max-width:26em;">TIUS students ran a bookcrossing installation at the same Bovisa campus in 2013 and 2014. La Staffetta inherits its grain and adds the link. It extends the school's own tradition rather than importing a foreign one.</p>
+    <aside class="notes">I am not inventing this tradition. BO LEGGE, TIUS students at Bovisa in 2013 and 2014, already did bookcrossing here. La Staffetta inherits its grain and adds the link. It is the third installment in the school's own object-exchange family.</aside>
+  </section>
+
+  <!-- 11 MOODBOARD (visual) -->
+  <section class="visual"><img src="img/fig-01.png" alt="Moodboard: tone, material, gesture" />
+    <div class="vcap">Moodboard. Tone, material, gesture: warm, intimate, documentary.</div>
+    <aside class="notes">The tone: warm, intimate, documentary. Honest materials, wood, paper, ink. Magenta earned, never decorative.</aside>
+  </section>
+
+  <!-- 12 BLOCK 03 DIVIDER -->
+  <section class="divider center" data-transition="slide" data-state="ondark">
+    <div class="eyebrow w">Block 03</div>
+    <h1 style="margin-top:14px;">Project<br>Development</h1>
+    <div class="sub">Maps, storyboard, and a prototyping plan in three modes.</div>
+    <aside class="notes">Block 03: development. The relay read as a system.</aside>
+  </section>
+
+  <!-- 13 ECOSYSTEM (visual) -->
+  <section class="visual"><img src="img/fig-10.png" alt="Ecosystem map: five layers around the relay" />
+    <div class="vcap">Ecosystem map. Five layers, from the single exchange to the institutions that host it.</div>
+    <aside class="notes">The relay sits inside five layers: physical, social, institutional, digital, temporal. Each names something that has to be designed for.</aside>
+  </section>
+  <!-- 14 ACTORS (visual) -->
+  <section class="visual"><img src="img/fig-09.png" alt="Actors map: who acts on La Staffetta, including non-human actors" />
+    <div class="vcap">Actors map. Human and non-human, everything that makes a difference to the relay.</div>
+    <aside class="notes">Human actors and, crucially, non-human ones: the object pool, the prompt set, the weather, time, and the empty cubby. Naming them is what stops the project breaking on day three.</aside>
+  </section>
+  <!-- 15 USER JOURNEY (visual) -->
+  <section class="visual"><img src="img/fig-08.png" alt="User journey: the Newcomer, one full loop" />
+    <div class="vcap">User journey. Mira the Newcomer, one full loop, from noticing to returning.</div>
+    <aside class="notes">One full loop, eight phases, with an emotional curve. Three critical moments: the rule must read in two seconds, the prompt must feel like a gift, and the wall must give a reason to return.</aside>
+  </section>
+  <!-- 16 STORYBOARD (visual) -->
+  <section class="visual"><img src="img/fig-11.png" alt="Storyboard: one full chain, three strangers who never meet" />
+    <div class="vcap">Storyboard. One chain across a week. Three strangers who never meet, and a wall.</div>
+    <aside class="notes">One complete chain. Three strangers, never meeting. The wall makes their invisible exchange legible to anyone walking past.</aside>
+  </section>
+
+  <!-- 17 PROTOTYPING -->
+  <section>
+    <div class="toplabel">Block 03 · Prototyping plan</div>
+    <h2 class="mag">A plan, in three modes</h2>
+    <div class="three">
+      <div class="c fragment fade-up"><b>Spatial</b><div class="k">Graphic action as stage</div><p>The cabinet on the Ovale's path beside a bench. A thin magenta line is the only accent.</p></div>
+      <div class="c fragment fade-up"><b>Service</b><div class="k">Activating conversation</div><p>Leave to take, take a prompt. About fifty bilingual cards, refreshed each term.</p></div>
+      <div class="c fragment fade-up"><b>VR / AR</b><div class="k">Virtual interactions</div><p>A digital twin and an AR app make the chain legible at a glance, from anywhere.</p></div>
+    </div>
+    <p class="small fragment fade-up" style="margin-top:24px;">Each mode is a real, interactive web prototype. The twin, the cards, and the AR app run live in a browser.</p>
+    <aside class="notes">Three modes, three readings of one relay. Spatial: the cabinet as stage. Service: the prompt protocol. VR and AR: the digital twin and app. Each is a real interactive prototype, not a mockup, and I can open them live.</aside>
+  </section>
+
+  <!-- 18 AR APP (inline phone) -->
+  <section>
+    <div class="toplabel">Block 03 · VR / AR mode</div>
+    <div class="split">
+      <div class="txt">
+        <h2 class="mag">The chain,<br>in your hand</h2>
+        <p class="fragment fade-up" style="margin-top:18px;">Point the app at the cabinet and the chain spools into view. Each cubby is tagged with what a stranger left and the prompt that traveled with it.</p>
+        <p class="small fragment fade-up">A working prototype, not a concept mockup.</p>
+      </div>
+      <div class="pic" style="display:flex; justify-content:center;">
+        <div class="phone" role="img" aria-label="Mockup of the La Staffetta AR app showing glowing nodes on the cabinet">
+          <div class="scr">
+            <img src="img/scene.jpg" alt="AR camera view of the Relay Cabinet on the Ovale" />
+            <div class="bar">La Staffetta · AR <span class="live">LIVE</span></div>
+            <div class="node" style="left:64%; top:36%;"><div class="r"></div><div class="c"></div></div>
+            <div class="node" style="left:68%; top:52%;"><div class="r"></div><div class="c"></div></div>
+            <div class="node" style="left:60%; top:68%;"><div class="r"></div><div class="c"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">This is where I switch to the live prototype. Point the app at the cabinet and the chain appears. Tap a glowing cubby to read what a stranger left and the linked prompt. It lets remote, international, and graduated participants follow their chain from anywhere.</aside>
+  </section>
+
+  <!-- 19 FEASIBILITY -->
+  <section class="center">
+    <div class="toplabel">Block 03 · Feasibility</div>
+    <h2 style="max-width:14em;">It could be built</h2>
+    <p class="lede fragment fade-up" style="margin-top:18px; max-width:26em;">A one-cabinet pilot sits within a student and DESIS Lab budget. Larch suits Milan's climate, Polimi can fabricate the parts, and the campus maintenance model already exists. Building it is not part of this exam. Naming what it would take keeps the proposal honest.</p>
+    <aside class="notes">This is deployable. A pilot fits a student budget, larch suits the climate, Polimi can fabricate it, and Coltivando next door proves the maintenance model. Building it is not part of this exam, but naming what it takes keeps the proposal honest.</aside>
+  </section>
+
+  <!-- 20 CLOSING -->
+  <section class="center">
+    <div class="eyebrow">Democracy, Togetherness and Civicness</div>
+    <div class="big" style="margin-top:16px; max-width:16em;">Belonging is not about being invited to stay. It is about having a reason to return.</div>
+    <aside class="notes">That is the project. The claim returns: belonging is about having a reason to return. Thank you.</aside>
+  </section>
+
+  <!-- 21 THANKS -->
+  <section class="center">
+    <h2>Thank you</h2>
+    <p class="small" style="margin-top:18px; line-height:1.7;">Efe Eren Can Bakır<br>with the TIUS course team: Ambra Borin, Elena Giunta, Marco Biferale<br>Polimi DESIS Lab · School of Design · Politecnico di Milano</p>
+    <aside class="notes">Thank you. Happy to open any of the three prototypes live and to take questions.</aside>
+  </section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width:1280, height:800, margin:0.04,
+    controls:true, progress:true, hash:true, slideNumber:false,
+    transition:'fade', transitionSpeed:'default',
+    pdfSeparateFragments:false,
+    plugins:[ RevealNotes ]
+  });
+  // Flip the nav arrows to white on magenta divider slides so they stay legible.
+  function syncDark(){
+    var cur = Reveal.getCurrentSlide();
+    document.querySelector('.reveal').classList.toggle('ondark', !!(cur && cur.classList.contains('divider')));
+  }
+  Reveal.on('ready', syncDark);
+  Reveal.on('slidechanged', syncDark);
+</script>
+</body>
+</html>
