@@ -18,10 +18,10 @@
      - Letter-spacing always negative. No em dashes. No drop caps.
      Fonts are embedded so the deck renders identically anywhere.
      ============================================================ */
-  @font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap;}
-  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 550;font-style:normal;font-display:swap;}
-  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:300 550;font-style:italic;font-display:swap;}
-  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:600 800;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:normal;font-style:italic;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:bold;font-style:normal;font-display:swap;}
 
   :root{
     --magenta:#FE52B6; --magenta-tint:#FFE4F3; --magenta-deep:#d62f93;
@@ -94,6 +94,15 @@
   .three .c b{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; font-size:0.72em; letter-spacing:-0.02em; display:block; color:var(--ink); }
   .three .c .k{ font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; font-size:0.42em; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin:6px 0 10px; }
   .three .c p{ font-size:0.58em; line-height:1.4; color:var(--body); }
+
+  /* live-suite call to action: QR + link to the deployed interactive prototypes */
+  a.livelink{ font-family:var(--display); font-weight:700; font-variation-settings:"wght" 700; letter-spacing:-0.01em; color:var(--magenta); text-decoration:none; }
+  a.livelink:hover{ text-decoration:underline; }
+  .livecta{ display:flex; align-items:center; gap:24px; margin-top:32px; }
+  .livecta .qr{ width:120px; height:120px; display:block; border-radius:8px; flex:none; }
+  .livecta .lc b{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; font-size:0.82em; letter-spacing:-0.02em; color:var(--ink); display:block; }
+  .livecta .lc .sub{ font-size:0.55em; color:var(--grey); line-height:1.4; max-width:22em; margin:5px 0 8px; }
+  .livecta .lc .livelink{ font-size:0.56em; }
 
   /* big magenta statement */
   .big{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; color:var(--magenta); font-size:2.1em; line-height:1.05; }
@@ -258,7 +267,14 @@
       <div class="c fragment fade-up"><b>Service</b><div class="k">Activating conversation</div><p>Leave to take, take a prompt. About fifty bilingual cards, refreshed each term.</p></div>
       <div class="c fragment fade-up"><b>VR / AR</b><div class="k">Virtual interactions</div><p>A digital twin and an AR app make the chain legible at a glance, from anywhere.</p></div>
     </div>
-    <p class="small fragment fade-up" style="margin-top:24px;">Each mode is a real, interactive web prototype. The twin, the cards, and the AR app run live in a browser.</p>
+    <div class="livecta fragment fade-up">
+      <a href="https://efbakir.github.io/la-staffetta/" target="_blank" rel="noopener"><img class="qr" src="img/qr-la-staffetta.png" alt="QR code linking to the live La Staffetta web suite at efbakir.github.io/la-staffetta" /></a>
+      <div class="lc">
+        <b>Open all three, live</b>
+        <div class="sub">The twin, the cards, and the AR app are real interactive prototypes, not mockups. Scan to run them in any browser.</div>
+        <a class="livelink" href="https://efbakir.github.io/la-staffetta/" target="_blank" rel="noopener">efbakir.github.io/la-staffetta</a>
+      </div>
+    </div>
     <aside class="notes">Three modes, three readings of one relay. Spatial: the cabinet as stage. Service: the prompt protocol. VR and AR: the digital twin and app. Each is a real interactive prototype, not a mockup, and I can open them live.</aside>
   </section>
 
@@ -290,8 +306,8 @@
   <section class="center">
     <div class="toplabel">Block 03 · Feasibility</div>
     <h2 style="max-width:14em;">It could be built</h2>
-    <p class="lede fragment fade-up" style="margin-top:18px; max-width:26em;">A one-cabinet pilot sits within a student and DESIS Lab budget. Larch suits Milan's climate, Polimi can fabricate the parts, and the campus maintenance model already exists. Building it is not part of this exam. Naming what it would take keeps the proposal honest.</p>
-    <aside class="notes">This is deployable. A pilot fits a student budget, larch suits the climate, Polimi can fabricate it, and Coltivando next door proves the maintenance model. Building it is not part of this exam, but naming what it takes keeps the proposal honest.</aside>
+    <p class="lede fragment fade-up" style="margin-top:18px; max-width:26em;">A one-cabinet pilot sits within a student and DESIS Lab budget. Larch suits Milan's climate, Polimi can fabricate the parts, and the campus maintenance model already exists. Building it is not part of the brief. Naming what it would take keeps the proposal honest.</p>
+    <aside class="notes">This is deployable. A pilot fits a student budget, larch suits the climate, Polimi can fabricate it, and Coltivando next door proves the maintenance model. Building it is not part of the brief, but naming what it takes keeps the proposal honest.</aside>
   </section>
 
   <!-- 20 CLOSING -->
@@ -305,6 +321,7 @@
   <section class="center">
     <h2>Thank you</h2>
     <p class="small" style="margin-top:18px; line-height:1.7;">Efe Eren Can Bakır<br>with the TIUS course team: Ambra Borin, Elena Giunta, Marco Biferale<br>Polimi DESIS Lab · School of Design · Politecnico di Milano</p>
+    <p class="small" style="margin-top:16px;">Explore it live, <a class="livelink" style="font-size:1em;" href="https://efbakir.github.io/la-staffetta/" target="_blank" rel="noopener">efbakir.github.io/la-staffetta</a></p>
     <aside class="notes">Thank you. Happy to open any of the three prototypes live and to take questions.</aside>
   </section>
 
