@@ -1,0 +1,94 @@
+/* embedded brand fonts so the site renders identically anywhere */
+@font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap;}
+@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 550;font-style:normal;font-display:swap;}
+@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:300 550;font-style:italic;font-display:swap;}
+@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:600 800;font-style:normal;font-display:swap;}
+/* ============================================================
+   La Staffetta · shared identity stylesheet
+   Magenta #FE52B6 on white. Matches the TIUS presentation style:
+   bold, simple, white space, single accent.
+   Display = Antarctica Beta VAR (Bold), Archivo as web fallback.
+   Voice  = Editorial New (Medium), Spectral as web fallback.
+   The named fonts render for anyone with them installed (e.g. the
+   author's Mac, used to present the remote exam). Others see the
+   close web fallbacks.
+   ============================================================ */
+:root {
+  --magenta: #FE52B6;
+  --magenta-tint: #FFE4F3;
+  --magenta-deep: #d62f93;
+  --ink: #161616;
+  --grey: #6a6a6a;
+  --line: #ececec;
+  --bg: #ffffff;
+  --cream: #f7f1e8;
+  --display: "Antarctica Beta VAR", "Archivo", system-ui, sans-serif;
+  --serif: "Editorial New", "PP Editorial New", "Spectral", Georgia, serif;
+  --max: 1180px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: "Archivo", system-ui, sans-serif;   /* body copy stays in the neutral grotesque */
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+  letter-spacing: -0.02em;          /* -2% floor on body */
+  -webkit-font-smoothing: antialiased;
+}
+.serif { font-family: var(--serif); }
+.mag { color: var(--magenta); }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+@media (max-width: 600px){ .wrap { padding: 0 22px; } }
+
+/* nav */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+nav .brand { font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; font-size: 18px; text-decoration:none; color:var(--ink); }
+nav .brand .dot { color: var(--magenta); }
+nav ul { display: flex; gap: 24px; list-style: none; }
+nav a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; opacity: .65; transition: opacity .15s, color .15s; white-space: nowrap; }
+nav a:hover, nav a.active { opacity: 1; color: var(--magenta); }
+@media (max-width: 600px){
+  nav .wrap { height: 58px; }
+  nav .brand { font-size: 0; }                 /* hide long wordmark, keep the dot mark */
+  nav .brand::before { content: "La Staffetta"; font-size: 15px; }
+  nav .brand .dot { font-size: 15px; }
+  nav ul { gap: 16px; }
+  nav a { font-size: 13px; }
+}
+@media (max-width: 380px){ nav .brand::before { content: "LS"; } nav ul { gap: 13px; } nav a { font-size: 12px; } }
+
+/* headings: presentation register: big, bold, magenta display */
+/* letter-spacing scale: tighten as size grows, -4% (XL) to -2% (body). Both fonts. */
+.eyebrow { font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing:-0.01em; text-transform: uppercase; color: var(--magenta); }
+h1 { font-family: var(--display); font-size: clamp(40px, 7.5vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; margin: 18px 0 10px; }
+h2 { font-family: var(--display); font-size: clamp(28px, 4.4vw, 46px); font-weight: 700; letter-spacing: -0.035em; color: var(--magenta); line-height: 1.0; }
+.sub { font-family: var(--display); font-size: clamp(18px, 2.4vw, 24px); font-weight: 500; letter-spacing: -0.03em; }
+.lead { font-size: 17px; max-width: 680px; line-height: 1.6; letter-spacing: -0.02em; }
+.serif { letter-spacing: -0.02em; }
+
+/* sections: generous white space like the slides */
+section { padding: 84px 0; border-top: 1px solid var(--line); }
+@media (max-width: 600px){ section { padding: 52px 0; } }
+/* presentation header pattern: bold header left, magenta descriptor right */
+.sec-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 28px; flex-wrap: wrap; }
+.sec-note { color: var(--magenta); font-size: 14px; max-width: 440px; text-align: right; font-weight: 500; line-height: 1.45; }
+@media (max-width: 700px){ .sec-note { text-align: left; max-width: 100%; } }
+
+/* pills / buttons */
+.pill-note { display:inline-block; font-family: var(--display); font-size:11px; font-weight:700; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); background:var(--magenta-tint); padding:6px 13px; border-radius:999px; }
+.link-btn { display:inline-block; background: var(--magenta-tint); color: var(--magenta); border:none; border-radius: 8px; padding: 10px 17px; font-weight:600; font-size: 13px; cursor: pointer; font-family:inherit; text-decoration:none; transition: background .15s,color .15s; }
+.link-btn:hover { background: var(--magenta); color:#fff; }
+
+/* footer with the presentation corner-mark */
+footer { padding: 56px 0 72px; border-top: 1px solid var(--line); color: var(--grey); font-size: 13px; }
+footer > .wrap > div { margin-top: 3px; }
+footer b { color: var(--ink); }
+.foot-mark { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--magenta); letter-spacing: -0.03em; margin-bottom: 14px !important; }
+.disclaimer { margin-top: 16px !important; font-size: 12px; color: #9a9a9a; max-width: 660px; }

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Staffetta · Prompt Cards</title>
+<meta name="description" content="The prompt-card system of La Staffetta, the link in the chain." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  header.hero { padding: 84px 0 8px; }
+  .claim-line { font-family: var(--serif); letter-spacing: -0.02em; font-size: clamp(20px,2.6vw,30px); line-height:1.32; max-width: 760px; margin-top: 26px; }
+
+  .principles { display:grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 48px; border-top: 1px solid var(--line); }
+  @media (max-width: 820px){ .principles { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 460px){ .principles { grid-template-columns: 1fr; } }
+  .principle { padding: 20px 22px 22px 0; }
+  .principle b { display:block; font-size: 14px; margin-bottom: 5px; letter-spacing: -0.02em; }
+  .principle span { font-size: 13.5px; color: #3a3a3a; font-weight: 500; line-height: 1.5; }
+
+  /* ---- flip card component (filled, no outlines) ---- */
+  .flip { perspective: 1400px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+    transition: transform .62s cubic-bezier(.2,.75,.2,1); }
+  .flip.flipped .flip-inner { transform: rotateY(180deg); }   /* flip on tap/click only, never on hover */
+  .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 16px; padding: 24px 26px; display: flex; flex-direction: column; justify-content: space-between;
+    transition: box-shadow .25s ease; }
+  /* hero "One card" keeps a resting shadow that deepens slightly on hover */
+  .hero-flip .face { box-shadow: 0 14px 34px rgba(80,40,70,0.12); }
+  .hero-flip:hover .face { box-shadow: 0 20px 46px rgba(80,40,70,0.20); }
+  /* set cards sit flat so they never bleed into each other; the shadow arrives only when flipped */
+  .set-grid .flip.flipped .face { box-shadow: 0 16px 40px rgba(80,40,70,0.22); }
+  /* keyboard focus ring (outline, so it never fights the box-shadow above) */
+  .flip:focus-visible { outline: none; }
+  .flip:focus-visible .face { outline: 2px solid var(--magenta); outline-offset: 2px; }
+  .face.front { background: var(--cream); }
+  .face.back { background: var(--magenta); transform: rotateY(180deg); }
+  .fc-label { font-family: var(--display); font-size: 10px; font-weight: 700; letter-spacing:-0.01em; text-transform: uppercase; }
+  .front .fc-label { color: var(--magenta); }
+  .back .fc-label { color: rgba(255,255,255,0.85); }
+  .fc-en { font-family: var(--serif); letter-spacing: -0.02em; font-size: clamp(17px,1.6vw,20px); line-height: 1.34; color: var(--ink); }
+  .fc-it { font-family: var(--serif); font-style: italic; letter-spacing: -0.02em; font-size: clamp(15px,1.5vw,18px); line-height: 1.38; color: #fff; }
+  .fc-foot { display:flex; align-items:center; justify-content:space-between; font-family: var(--display); font-size: 10px; font-weight:600; letter-spacing:-0.01em; text-transform:uppercase; }
+  .front .fc-foot { color: var(--grey); }
+  .back .fc-foot { color: rgba(255,255,255,0.8); }
+  .fc-flip-ic { opacity:.7; }
+
+  /* hero one-card */
+  .hero-card-stage { display:grid; grid-template-columns: 460px 1fr; gap: 56px; align-items: center; margin-top: 44px; }
+  @media (max-width: 860px){ .hero-card-stage { grid-template-columns: 1fr; gap: 32px; } }
+  .hero-flip { width: 100%; aspect-ratio: 85 / 55; }
+  .hero-flip .fc-en { font-size: clamp(20px,2.4vw,26px); }
+  .hero-flip .fc-it { font-size: clamp(17px,2vw,21px); }
+  .card-explain h3 { font-family: var(--display); font-size: 22px; letter-spacing:-0.03em; margin-bottom: 12px; }
+  .card-explain p { font-size: 15px; color: var(--ink); max-width: 460px; }
+  .card-explain p + p { margin-top: 14px; }
+  .card-explain .spec { margin-top: 18px; font-size: 13px; color: var(--grey); }
+
+  /* the set grid of flip cards */
+  .set-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 22px; margin-top: 40px; }
+  .set-grid .flip { aspect-ratio: 85 / 55; }
+
+  /* production: line-divided rows */
+  .prod-list { margin-top: 32px; }
+  .prod-row { display:grid; grid-template-columns: 200px 1fr; gap: 28px; padding: 26px 0; }   /* no separators; spacing alone sets the rhythm */
+  .prod-row .pr-k { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing:-0.02em; color: var(--magenta); }
+  .prod-row .pr-v { font-size: 15px; color: var(--ink); max-width: 620px; }
+  @media (max-width: 640px){ .prod-row { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html">La Staffetta <span class="dot">·</span> The Relay</a>
+    <ul>
+      <li><a href="cards.html" class="active">Prompt Cards</a></li>
+      <li><a href="ar.html">AR</a></li>
+      <li><a href="index.html">Digital Twin</a></li>
+      <li><a href="cabinet3d.html">3D</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Block 03 · Service mode · the prompt-card system</div>
+    <h1>The card is<br>the link.</h1>
+    <p class="claim-line">The prompt card is what a taker receives when they lift an object from a cubby. It connects this exchange to the one before it. Without it, the relay is a bookcrossing box. With it, the relay is a <span class="mag">chain</span>.</p>
+
+    <div class="principles">
+      <div class="principle"><b>Invite, don't instruct</b><span>It offers, never commands.</span></div>
+      <div class="principle"><b>Refer to the gesture</b><span>To "whoever left this," not to a specific object.</span></div>
+      <div class="principle"><b>Language-light</b><span>Bilingual EN and IT, image-ready.</span></div>
+      <div class="principle"><b>Anonymity held</b><span>Never asks who you are.</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>One card</h2>
+      <div class="sec-note">English on the front, Italian on the back. Tap or click to turn it over.</div>
+    </div>
+    <div class="hero-card-stage">
+      <div class="flip hero-flip" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="fc-label">Card 01 · The maker's invitation</div>
+            <div class="fc-en">Someone made this with attention. Leave something made with the same attention.</div>
+            <div class="fc-foot"><span>English</span><span class="fc-flip-ic">flip ↺</span></div>
+          </div>
+          <div class="face back">
+            <div class="fc-label">Carta 01</div>
+            <div class="fc-it">Qualcuno ha fatto questo con cura. Lascia qualcosa fatto con la stessa cura.</div>
+            <div class="fc-foot"><span>Italiano</span><span class="fc-flip-ic">↺</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-explain">
+        <h3>An object, not a screen</h3>
+        <p>The card is the only piece of the relay a person carries away. It travels in a pocket, gets pinned to a wall, becomes the thing that pulls someone back.</p>
+        <p>English on the front, Italian on the back. No project name, no logo. The card is the prompt, nothing else.</p>
+        <div class="spec">85 × 55 mm · cream stock · card number set small for the archive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The set</h2>
+      <div class="sec-note">Ten of the fifty-odd cards in circulation. Tap or click any card to read the Italian on its back.</div>
+    </div>
+    <div class="set-grid" id="setGrid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Production</h2>
+      <div class="sec-note">How the set is made, kept, and renewed.</div>
+    </div>
+    <div class="prod-list">
+      <div class="prod-row"><div class="pr-k">Format</div><div class="pr-v">85 × 55 mm, cream stock. The card number is printed small for archive cross-reference, not for the user to act on.</div></div>
+      <div class="prod-row"><div class="pr-k">Quantity</div><div class="pr-v">Fifty to sixty unique cards live at once. About ten are retired and ten introduced each term.</div></div>
+      <div class="prod-row"><div class="pr-k">Authoring</div><div class="pr-v">The first round is the designer's. Later rounds are co-written with students, or drawn from previous chain submissions: a question someone left becomes next term's card.</div></div>
+      <div class="prod-row"><div class="pr-k">Not on the card</div><div class="pr-v">No project name, no marks, no branding. The card is the prompt. Branding lives on the cabinet.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-mark">La Staffetta <span class="mag">·</span> TIUS 2026</div>
+    <div>Prompt-card specimen · Block 03 (service mode)</div>
+    <div>Politecnico di Milano · School of Design · DESIS Lab · Efe Eren Can Bakır</div>
+    <div class="disclaimer">Fonts: Antarctica Beta VAR and Editorial New, with Archivo and Spectral as web fallback.</div>
+  </div>
+</footer>
+
+<script>
+const CARDS = [
+  { n:"01", tag:"the maker's invitation", en:"Someone made this with attention. Leave something made with the same attention.", it:"Qualcuno ha fatto questo con cura. Lascia qualcosa fatto con la stessa cura." },
+  { n:"02", tag:"the stranger's address", en:"Whoever placed this here was thinking of someone they will never meet. Who comes to mind for you?", it:"Chi ha messo questo qui stava pensando a qualcuno che non incontrerà mai. A chi pensi tu, ora?" },
+  { n:"03", tag:"the counted chain", en:"Three people held what you take. You are the fourth. Pass something on.", it:"Tre persone hanno tenuto questo prima di te. Tu sei il quarto. Passa qualcosa avanti." },
+  { n:"04", tag:"the unprompted gesture", en:"No name. No introduction. Just leave a question for whoever opens this cubby tomorrow.", it:"Nessun nome. Nessuna presentazione. Lascia una domanda per chi aprirà questo cassetto domani." },
+  { n:"05", tag:"the carried thing", en:"What was left here was once carried somewhere. What do you carry today that you could leave behind?", it:"Quello che era qui qualcuno l'ha portato fin qui. Cosa porti tu oggi che potresti lasciare?" },
+  { n:"06", tag:"the imagined succession", en:"Imagine the person who left this. Imagine the person who will take what you leave. They will not meet.", it:"Immagina chi ha lasciato questo. Immagina chi prenderà ciò che lascerai. Non si incontreranno." },
+  { n:"07", tag:"the trade", en:"Take this with you. In return, leave something a stranger could carry home.", it:"Porta questo con te. In cambio, lascia qualcosa che uno sconosciuto potrebbe portarsi a casa." },
+  { n:"08", tag:"the five-minute thing", en:"Make a small thing with five minutes of attention. Leave it here.", it:"Fai una piccola cosa con cinque minuti di attenzione. Lasciala qui." },
+  { n:"09", tag:"the decision", en:"Someone, before you, decided that a stranger deserved something. Now you decide.", it:"Qualcuno, prima di te, ha deciso che uno sconosciuto meritava qualcosa. Ora decidi tu." },
+  { n:"10", tag:"the witness", en:"What you hold was once on someone's mind. Leave something currently on yours.", it:"Quello che tieni in mano era nei pensieri di qualcuno. Lascia qualcosa che è nei tuoi." },
+];
+const grid = document.getElementById('setGrid');
+CARDS.forEach(c => {
+  const el = document.createElement('div');
+  el.className = 'flip';
+  el.tabIndex = 0;
+  el.innerHTML = `
+    <div class="flip-inner">
+      <div class="face front">
+        <div class="fc-label">Card ${c.n} · ${c.tag}</div>
+        <div class="fc-en">${c.en}</div>
+        <div class="fc-foot"><span>English</span><span class="fc-flip-ic">flip ↺</span></div>
+      </div>
+      <div class="face back">
+        <div class="fc-label">Carta ${c.n}</div>
+        <div class="fc-it">${c.it}</div>
+        <div class="fc-foot"><span>Italiano</span><span class="fc-flip-ic">↺</span></div>
+      </div>
+    </div>`;
+  // tap (touch) + keyboard flip, in addition to :hover
+  el.addEventListener('click', () => el.classList.toggle('flipped'));
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('flipped'); } });
+  grid.appendChild(el);
+});
+// hero card tap/keyboard
+document.querySelectorAll('.hero-flip').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('flipped'));
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('flipped'); } });
+});
+</script>
+</body>
+</html>
