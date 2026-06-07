@@ -1,23 +1,21 @@
-/* embedded brand fonts so the site renders identically anywhere */
-@font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap;}
-@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 550;font-style:normal;font-display:swap;}
-@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:300 550;font-style:italic;font-display:swap;}
-@font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:600 800;font-style:normal;font-display:swap;}
 /* ============================================================
-   La Staffetta · shared identity stylesheet
-   Magenta #FE52B6 on white. Matches the TIUS presentation style:
-   bold, simple, white space, single accent.
-   Display = Antarctica Beta VAR (Bold), Archivo as web fallback.
-   Voice  = Editorial New (Medium), Spectral as web fallback.
-   The named fonts render for anyone with them installed (e.g. the
-   author's Mac, used to present the remote exam). Others see the
-   close web fallbacks.
+   La Staffetta · shared identity stylesheet (obeys ../DESIGN_SYSTEM.md)
+   One system, three media. Antarctica Beta VAR = everything structural
+   (display, headings, body, labels, UI). Editorial New = small accent only
+   (image captions, Italian card translations, short prompt ties). Never
+   Editorial in body or headings. Magenta #FE52B6 earned, never decorative.
+   Fonts embedded below so the site renders identically on any machine.
    ============================================================ */
+@font-face{ font-family:"Antarctica Beta VAR"; src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype"); font-weight:100 900; font-style:normal; font-display:swap; }
+@font-face{ font-family:"Editorial New"; src:url("fonts/EditorialNew-Regular.ttf") format("truetype"); font-weight:400 500; font-style:normal; font-display:swap; }
+@font-face{ font-family:"Editorial New"; src:url("fonts/EditorialNew-Italic.ttf") format("truetype"); font-weight:400 500; font-style:italic; font-display:swap; }
+@font-face{ font-family:"Editorial New"; src:url("fonts/EditorialNew-Bold.ttf") format("truetype"); font-weight:600 800; font-style:normal; font-display:swap; }
 :root {
   --magenta: #FE52B6;
   --magenta-tint: #FFE4F3;
   --magenta-deep: #d62f93;
   --ink: #161616;
+  --body: #5e5e5e;
   --grey: #6a6a6a;
   --line: #ececec;
   --bg: #ffffff;
@@ -29,11 +27,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  font-family: "Archivo", system-ui, sans-serif;   /* body copy stays in the neutral grotesque */
-  color: var(--ink);
+  font-family: var(--display);      /* Antarctica for everything structural, incl. body */
+  font-weight: 400;
+  color: var(--body);               /* softened body ink (#5e5e5e), near-black reserved for headings/voice */
   background: var(--bg);
   line-height: 1.55;
-  letter-spacing: -0.02em;          /* -2% floor on body */
+  letter-spacing: -0.02em;
   -webkit-font-smoothing: antialiased;
 }
 .serif { font-family: var(--serif); }
@@ -67,10 +66,10 @@ nav a:hover, nav a.active { opacity: 1; color: var(--magenta); }
 /* headings: presentation register: big, bold, magenta display */
 /* letter-spacing scale: tighten as size grows, -4% (XL) to -2% (body). Both fonts. */
 .eyebrow { font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing:-0.01em; text-transform: uppercase; color: var(--magenta); }
-h1 { font-family: var(--display); font-size: clamp(40px, 7.5vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; margin: 18px 0 10px; }
+h1 { font-family: var(--display); font-size: clamp(40px, 7.5vw, 88px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98; margin: 18px 0 10px; color: var(--ink); }
 h2 { font-family: var(--display); font-size: clamp(28px, 4.4vw, 46px); font-weight: 700; letter-spacing: -0.035em; color: var(--magenta); line-height: 1.0; }
-.sub { font-family: var(--display); font-size: clamp(18px, 2.4vw, 24px); font-weight: 500; letter-spacing: -0.03em; }
-.lead { font-size: 17px; max-width: 680px; line-height: 1.6; letter-spacing: -0.02em; }
+.sub { font-family: var(--display); font-size: clamp(18px, 2.4vw, 24px); font-weight: 500; letter-spacing: -0.03em; color: var(--ink); }
+.lead { font-size: 17px; max-width: 680px; line-height: 1.6; letter-spacing: -0.02em; color: var(--ink); }
 .serif { letter-spacing: -0.02em; }
 
 /* sections: generous white space like the slides */
