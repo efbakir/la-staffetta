@@ -88,6 +88,19 @@
   </div>
 </div>
 
+<script>
+  /* graceful fallback: if WebGL or the CDN fails, replace the loader instead of hanging forever */
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      var l = document.getElementById('load');
+      if (l && !l.classList.contains('hide')) {
+        l.innerHTML = '<div class="lt">This 3D view needs WebGL and a connection.</div>'
+          + '<div style="font-family:var(--display);font-weight:500;font-size:13px;color:var(--grey);margin-top:10px;max-width:300px;text-align:center;line-height:1.55">Open it on a desktop browser, or see the cabinet on the <a href="index.html" style="color:var(--magenta);text-decoration:none;font-weight:700">Digital Twin</a> page.</div>';
+      }
+    }, 9000);
+  });
+</script>
+
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -113,8 +126,11 @@ const BONE_L = 0xece6d7;   // pop (figures, cap highlights)
 const GROUNDC= 0xd4ccb5;   // lawn
 
 const canvas = document.getElementById('c');
+const MOBILE = (window.innerWidth < 820 || /Mobi|Android/i.test(navigator.userAgent));
+// cap pixel ratio lower on phones so the two-pass bloom stays smooth on mobile GPUs
+const MAXPR = MOBILE ? 1.5 : 2;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, MAXPR));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -126,15 +142,16 @@ const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.fog = new THREE.FogExp2(0xe2dac8, 0.018);  // light cream haze (just softens the far background)
 
-const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(MOBILE ? 56 : 40, 1, 0.1, 200);
 const HERO_POS = new THREE.Vector3(6.4, 2.6, 8.6);
 const HERO_TGT = new THREE.Vector3(0, 0.35, 0);
+if (MOBILE) HERO_POS.multiplyScalar(1.2);   // pull back on portrait so the whole maquette fits
 camera.position.copy(HERO_POS).multiplyScalar(1.16);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true; controls.dampingFactor = 0.06;
 controls.enablePan = false;
-controls.minDistance = 4.5; controls.maxDistance = 19;
+controls.minDistance = 4.5; controls.maxDistance = 24;
 controls.minPolarAngle = 0.18;
 controls.maxPolarAngle = Math.PI/2 - 0.04;
 controls.target.copy(HERO_TGT);
@@ -382,7 +399,7 @@ const stash={};
 function darken(o){ if(o.isMesh && !(o.layers.mask & (1<<BLOOM_LAYER))){ stash[o.uuid]=o.material; o.material=darkMat; } }
 function restore(o){ if(stash[o.uuid]){ o.material=stash[o.uuid]; delete stash[o.uuid]; } }
 
-const bloomComposer=new EffectComposer(renderer); bloomComposer.renderToScreen=false; bloomComposer.setPixelRatio(Math.min(devicePixelRatio,2));
+const bloomComposer=new EffectComposer(renderer); bloomComposer.renderToScreen=false; bloomComposer.setPixelRatio(Math.min(devicePixelRatio,MAXPR));
 bloomComposer.addPass(new RenderPass(scene,camera));
 bloomComposer.addPass(new UnrealBloomPass(new THREE.Vector2(1,1), 0.85, 0.5, 0.0));
 
@@ -401,7 +418,7 @@ const grainPass=new ShaderPass(new THREE.ShaderMaterial({
     void main(){ vec4 col=texture2D(tDiffuse,vUv); float g=rand(vUv+fract(t))*2.0-1.0; col.rgb+=g*amount; gl_FragColor=col; }`
 }));
 
-const finalComposer=new EffectComposer(renderer); finalComposer.setPixelRatio(Math.min(devicePixelRatio,2));
+const finalComposer=new EffectComposer(renderer); finalComposer.setPixelRatio(Math.min(devicePixelRatio,MAXPR));
 finalComposer.addPass(new RenderPass(scene,camera));
 finalComposer.addPass(mixPass);
 finalComposer.addPass(grainPass);
