@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<script>(function(){try{var s=localStorage.getItem('ls-theme');var d=s?s==='dark':matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
 <title>La Staffetta · The Relay · Slides</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
 <style>
@@ -119,9 +121,28 @@
   /* fragment motion: restrained fade-up, ease-out (no bounce) */
   .reveal .fragment.fade-up{ opacity:0; transform:translateY(18px); transition:all .5s cubic-bezier(.2,.7,.2,1); }
   .reveal .fragment.fade-up.visible{ opacity:1; transform:none; }
+
+  /* ---- dark mode: flip the neutral tokens, dark deck background; magenta dividers stay magenta ---- */
+  [data-theme="dark"]{ --ink:#f0ede8; --body:#b6b0a8; --grey:#9a948c; --line:#2b2b31; --cream:#1b1b20; }
+  [data-theme="dark"] .reveal-viewport{ background:#121316; }
+  [data-theme="dark"] section.visual{ background:#121316; }
+  [data-theme="dark"] .reveal .vcap{ background:rgba(18,18,22,0.9); color:#cfc9c1; }
+  /* floating light/dark toggle (never printed) */
+  .bktoggle{ position:fixed; top:14px; right:16px; z-index:1000; width:40px; height:40px; display:flex; align-items:center; justify-content:center; padding:0; border:1px solid #dcd6ca; border-radius:999px; background:rgba(255,255,255,0.9); color:#161616; cursor:pointer; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); box-shadow:0 2px 12px rgba(0,0,0,0.14); }
+  [data-theme="dark"] .bktoggle{ background:rgba(30,31,36,0.92); border-color:#34353c; color:#f0ede8; }
+  .bktoggle .ic{ width:18px; height:18px; display:block; }
+  .bktoggle .ic-sun{ display:none; }
+  [data-theme="dark"] .bktoggle .ic-sun{ display:block; }
+  [data-theme="dark"] .bktoggle .ic-moon{ display:none; }
+  .bktoggle:focus-visible{ outline:2px solid var(--magenta); outline-offset:2px; }
+  @media print{ .bktoggle{ display:none !important; } }
 </style>
 </head>
 <body>
+<button class="bktoggle" type="button" aria-pressed="false" aria-label="Switch to dark theme" title="Light / dark">
+  <svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.2v2.3M12 19.5v2.3M4.3 4.3l1.6 1.6M18.1 18.1l1.6 1.6M2.2 12h2.3M19.5 12h2.3M4.3 19.7l1.6-1.6M18.1 5.9l1.6-1.6"/></svg>
+</button>
 <div class="reveal"><div class="slides">
 
   <!-- 1 TITLE -->
@@ -344,5 +365,6 @@
   Reveal.on('ready', syncDark);
   Reveal.on('slidechanged', syncDark);
 </script>
+<script>(function(){var root=document.documentElement,KEY='ls-theme';function cur(){return root.getAttribute('data-theme')==='dark'?'dark':'light';}function apply(t,p){root.setAttribute('data-theme',t);if(p){try{localStorage.setItem(KEY,t);}catch(e){}}var b=document.querySelector('.bktoggle');if(b){b.setAttribute('aria-pressed',t==='dark'?'true':'false');b.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');}}apply(cur(),false);var bt=document.querySelector('.bktoggle');if(bt)bt.addEventListener('click',function(){apply(cur()==='dark'?'light':'dark',true);});try{var mq=matchMedia('(prefers-color-scheme:dark)');var h=function(e){if(!localStorage.getItem(KEY))apply(e.matches?'dark':'light',false);};if(mq.addEventListener)mq.addEventListener('change',h);else if(mq.addListener)mq.addListener(h);}catch(e){}})();</script>
 </body>
 </html>

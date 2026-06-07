@@ -47,8 +47,8 @@ nav {
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
-nav .brand { font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; font-size: 18px; text-decoration:none; color:var(--ink); }
+nav .wrap { display: flex; align-items: center; gap: 20px; height: 66px; }
+nav .brand { font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; font-size: 18px; text-decoration:none; color:var(--ink); margin-right: auto; }
 nav .brand .dot { color: var(--magenta); }
 nav ul { display: flex; align-items: center; gap: 24px; list-style: none; }
 nav a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; opacity: .65; transition: opacity .15s, color .15s; white-space: nowrap; }
@@ -106,3 +106,41 @@ footer > .wrap > div { margin-top: 3px; }
 footer b { color: var(--ink); }
 .foot-mark { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--magenta); letter-spacing: -0.03em; margin-bottom: 14px !important; }
 .disclaimer { margin-top: 16px !important; font-size: 12px; color: #9a9a9a; max-width: 660px; }
+
+/* ============================================================
+   Dark theme. System default + manual toggle (data-theme on <html>).
+   Magenta #FE52B6 is kept as-is: it reads 6.1:1 on the dark bg (AA pass),
+   so the accent actually gains contrast on dark. Neutrals tinted warm.
+   ============================================================ */
+:root { color-scheme: light dark; }
+:root[data-theme="dark"] {
+  --magenta: #FE52B6;
+  --magenta-tint: rgba(254,82,182,0.16);   /* translucent wash, not pale pink */
+  --magenta-deep: #ff7ac6;
+  --ink: #f0ede8;                            /* off-white, not pure #fff */
+  --body: #b3ada4;                           /* warm secondary */
+  --grey: #928c83;
+  --line: #2b2b31;                           /* hairline / borders */
+  --bg: #121316;                             /* near-black, faint cool cast */
+  --cream: #1b1b20;                          /* dark surface where cream was */
+}
+[data-theme="dark"] nav { background: rgba(17,18,21,0.82); border-bottom-color: var(--line); }
+[data-theme="dark"] .disclaimer { color: #7b756d; }
+[data-theme="dark"] .link-btn:hover { color: #fff; }
+[data-theme="dark"] img:not(.no-dim) { filter: brightness(0.9) contrast(1.02); }
+
+/* theme toggle button (sits at the right of the nav) */
+.themetoggle { display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto;
+  width:34px; height:34px; padding:0; border:1px solid var(--line); border-radius:999px;
+  background:transparent; color:var(--ink); opacity:.7; cursor:pointer;
+  transition:opacity .15s, color .15s, border-color .15s; }
+.themetoggle:hover { opacity:1; color:var(--magenta); border-color:var(--magenta); }
+.themetoggle:focus-visible { outline:2px solid var(--magenta); outline-offset:2px; opacity:1; }
+.themetoggle .ic { width:16px; height:16px; display:block; }
+.themetoggle .ic-sun { display:none; }
+[data-theme="dark"] .themetoggle .ic-sun { display:block; }
+[data-theme="dark"] .themetoggle .ic-moon { display:none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  body { transition: background-color .25s ease, color .25s ease; }
+}

@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<script>(function(){try{var s=localStorage.getItem('ls-theme');var d=s?s==='dark':matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
 <title>La Staffetta · Prompt Cards</title>
 <meta name="description" content="The prompt-card system of La Staffetta, the link in the chain." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,6 +71,8 @@
   .prod-row .pr-k { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing:-0.02em; color: var(--magenta); }
   .prod-row .pr-v { font-size: 15px; color: var(--ink); max-width: 620px; }
   @media (max-width: 640px){ .prod-row { grid-template-columns: 1fr; gap: 6px; } }
+  /* dark: hardcoded principle grey -> token */
+  [data-theme="dark"] .principle span { color: var(--body); }
 </style>
 </head>
 <body>
@@ -85,6 +89,10 @@
       <li><a class="ext" href="booklet/" target="_blank" rel="noopener">Booklet</a></li>
       <li><a class="ext" href="slides/" target="_blank" rel="noopener">Slides</a></li>
     </ul>
+    <button class="themetoggle" type="button" aria-pressed="false" aria-label="Switch to dark theme" title="Light / dark">
+      <svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.2v2.3M12 19.5v2.3M4.3 4.3l1.6 1.6M18.1 18.1l1.6 1.6M2.2 12h2.3M19.5 12h2.3M4.3 19.7l1.6-1.6M18.1 5.9l1.6-1.6"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -210,5 +218,6 @@ document.querySelectorAll('.hero-flip').forEach(el => {
   el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('flipped'); } });
 });
 </script>
+<script src="theme.js"></script>
 </body>
 </html>
