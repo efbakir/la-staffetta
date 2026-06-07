@@ -50,18 +50,27 @@ nav {
 nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
 nav .brand { font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; font-size: 18px; text-decoration:none; color:var(--ink); }
 nav .brand .dot { color: var(--magenta); }
-nav ul { display: flex; gap: 24px; list-style: none; }
+nav ul { display: flex; align-items: center; gap: 24px; list-style: none; }
 nav a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; opacity: .65; transition: opacity .15s, color .15s; white-space: nowrap; }
 nav a:hover, nav a.active { opacity: 1; color: var(--magenta); }
+/* group the four interactive pages from the two external deliverables (booklet / slides) */
+nav .navsep { width: 1px; height: 15px; background: var(--line); margin: 0 2px; }
+nav a.ext::after { content: " \2197"; font-size: 10px; font-weight: 700; opacity: .5; }
+nav a.ext:hover::after, nav a.ext:focus-visible::after { opacity: 1; }
 @media (max-width: 600px){
-  nav .wrap { height: 58px; }
-  nav .brand { font-size: 0; }                 /* hide long wordmark, keep the dot mark */
+  nav .wrap { height: 58px; gap: 14px; }
+  nav .brand { font-size: 0; flex: 0 0 auto; }                 /* hide long wordmark, keep the dot mark */
   nav .brand::before { content: "La Staffetta"; font-size: 15px; }
   nav .brand .dot { font-size: 15px; }
-  nav ul { gap: 16px; }
+  /* too many destinations for a phone row: let the strip scroll, fade the right edge to signal more */
+  nav ul { gap: 16px; min-width: 0; flex: 1 1 auto; overflow-x: auto; scrollbar-width: none;
+           -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+           mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav li { flex: 0 0 auto; }
   nav a { font-size: 13px; }
 }
-@media (max-width: 380px){ nav .brand::before { content: "LS"; } nav ul { gap: 13px; } nav a { font-size: 12px; } }
+@media (max-width: 380px){ nav .brand::before { content: "LS"; } nav ul { gap: 14px; } nav a { font-size: 12px; } }
 
 /* headings: presentation register: big, bold, magenta display */
 /* letter-spacing scale: tighten as size grows, -4% (XL) to -2% (body). Both fonts. */
