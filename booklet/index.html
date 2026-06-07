@@ -163,6 +163,14 @@
 
   .lblrow{ display:flex; gap:5mm; flex-wrap:wrap; margin-top:7mm; }
   .lblrow .l{ font-family:var(--sans); font-weight:600; font-variation-settings:"wght" 600; font-size:9pt; letter-spacing:-0.01em; color:var(--magenta); border:1px solid var(--magenta); border-radius:20pt; padding:1.6mm 4mm; }
+
+  /* screen only: center the spreads on a warm backdrop and float each page as a card with gaps (print/PDF layout unaffected) */
+  @media screen{
+    html{ background:#e6e1d7; }
+    body{ background:#e6e1d7; padding:11mm 0; }
+    .page{ margin:0 auto 9mm; box-shadow:0 3px 20px rgba(22,22,22,0.13); }
+    .page:last-child{ margin-bottom:0; }
+  }
 </style>
 </head>
 <body>
