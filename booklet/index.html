@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>La Staffetta · The Relay · Booklet</title>
+<style>
+  /* ============================================================
+     La Staffetta · design system (shared with the slides)
+     Canonical spec: 04_deliverables/DESIGN_SYSTEM.md
+     A4 landscape, print -> PDF via weasyprint.
+     - Antarctica Beta VAR (sans) for everything structural.
+     - Editorial New (serif italic) for small accents only: captions,
+       card translations, pull-quote ties, sub-labels, the bibliography.
+       Never body, never headings.
+     - Magenta #FE52B6 is the single accent, earned not decorative:
+       headings are ink by default; magenta heads are occasional.
+     - Body copy is softened ink (--body), never near-black.
+     - Letter-spacing always negative. No em dashes. No drop caps.
+     Fonts are embedded so the PDF renders identically anywhere.
+     ============================================================ */
+  @page { size: 297mm 210mm; margin: 0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  /* Self-hosted brand fonts — embedded so the page renders identically for any web visitor. */
+  @font-face{font-family:"Antarctica Beta VAR";src:url("fonts/AntarcticaBetaVAR-Regular.ttf") format("truetype");font-weight:100 900;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 550;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Italic.ttf") format("truetype");font-weight:300 550;font-style:italic;font-display:swap;}
+  @font-face{font-family:"Editorial New";src:url("fonts/EditorialNew-Bold.ttf") format("truetype");font-weight:600 800;font-style:normal;font-display:swap;}
+  @font-face{font-family:"Editorial New Medium";src:url("fonts/EditorialNew-Regular.ttf") format("truetype");font-weight:300 600;font-style:normal;font-display:swap;}
+  :root{
+    --magenta:#FE52B6; --magenta-tint:#FFE4F3; --magenta-deep:#d62f93;
+    --ink:#161616; --body:#5e5e5e; --grey:#6a6a6a; --line:#e7e7e7; --cream:#f7f1e8;
+    --display:"Antarctica Beta VAR","Arial Narrow",sans-serif;
+    --serif:"Editorial New",Georgia,serif;
+    --sans:"Antarctica Beta VAR","Helvetica Neue",Arial,sans-serif;
+  }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ font-family:var(--sans); color:var(--ink); counter-reset:pno; }
+  .page{ width:297mm; height:210mm; page-break-after:always; position:relative; overflow:hidden; background:#fff; padding:22mm 24mm; counter-increment:pno; }
+  .page:last-child{ page-break-after:auto; }
+
+  .display{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; line-height:0.98; }
+  .mag{ color:var(--magenta); }
+  .eyebrow{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:9pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); white-space:nowrap; }
+  .eyebrow.ink{ color:var(--ink); }
+  .pageno{ position:absolute; bottom:14mm; right:24mm; font-family:var(--sans); font-size:8pt; color:var(--grey); letter-spacing:-0.01em; }
+  .pageno::before{ content: counter(pno, decimal-leading-zero); }
+  .running{ position:absolute; top:14mm; left:24mm; font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:8pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); white-space:nowrap; }
+
+  h2.sec{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.035em; color:var(--magenta); font-size:34pt; line-height:1.0; margin-bottom:6mm; }
+  h2.sec.ink{ color:var(--ink); }
+  p.body{ font-family:var(--sans); color:var(--body); font-size:11pt; line-height:1.52; max-width:150mm; letter-spacing:-0.005em; }
+  p.body + p.body{ margin-top:4mm; }
+  .lede{ font-family:var(--sans); color:var(--body); font-size:14pt; line-height:1.46; letter-spacing:-0.01em; }
+  .kicker{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:9pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--grey); margin-bottom:5mm; white-space:nowrap; }
+
+  /* multi-column reading flow (the magazine feel that sets the booklet apart from slides) */
+  .flow2{ column-count:2; column-gap:13mm; margin-top:6mm; }
+  .flow3{ column-count:3; column-gap:10mm; margin-top:6mm; }
+  .flow2 p, .flow3 p{ font-family:var(--sans); color:var(--body); font-size:10pt; line-height:1.5; letter-spacing:-0.005em; margin-bottom:3.4mm; break-inside:avoid-column; }
+  .flow2 p.first, .flow3 p.first{ margin-top:0; }
+  /* paragraphs that balance into the top of a column must not carry a top margin,
+     or the columns start at different heights (the page-08 misalignment). */
+  .flow2 p.body + p.body, .flow3 p.body + p.body{ margin-top:0; }
+  .mark{ color:var(--magenta); font-weight:600; font-variation-settings:"wght" 600; }
+
+  /* pull statement */
+  .pull{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.03em; color:var(--magenta); font-size:30pt; line-height:1.08; }
+  .pull.serif{ font-family:var(--sans); font-weight:500; font-variation-settings:"wght" 500; color:var(--ink); letter-spacing:-0.02em; }
+
+  /* cover */
+  .cover{ display:flex; flex-direction:column; justify-content:center; padding:30mm 26mm; }
+  .cover .ttl{ font-size:74pt; }
+  .cover .sub{ font-family:var(--display); font-weight:500; font-variation-settings:"wght" 500; font-size:20pt; letter-spacing:-0.02em; margin-top:5mm; }
+  .cover .claim{ font-family:var(--sans); font-weight:500; font-variation-settings:"wght" 500; font-size:21pt; line-height:1.32; letter-spacing:-0.02em; margin-top:13mm; max-width:200mm; }
+  .kw{ display:flex; flex-wrap:wrap; gap:2.5mm; margin-top:14mm; }
+  .kw span{ height:6.4mm; line-height:6.4mm; padding:0 5mm; white-space:nowrap; font-family:var(--sans); font-weight:600; font-variation-settings:"wght" 600; font-size:8.5pt; color:#fff; background:var(--magenta); border-radius:3mm; letter-spacing:-0.01em; }
+
+  /* full-bleed magenta divider */
+  .divider{ background:var(--magenta); display:flex; flex-direction:column; justify-content:center; padding:30mm 26mm; }
+  .divider .num{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:12pt; letter-spacing:-0.01em; color:rgba(255,255,255,0.8); }
+  .divider .ttl{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; color:#fff; font-size:80pt; line-height:0.96; margin-top:6mm; }
+  .divider .sub{ font-family:var(--display); font-weight:500; font-variation-settings:"wght" 500; font-size:18pt; color:#fff; letter-spacing:-0.02em; margin-top:5mm; }
+  .divider .abs{ font-family:var(--sans); color:#fff; font-size:12pt; line-height:1.52; max-width:170mm; margin-top:14mm; opacity:0.96; }
+  .divider .ix{ margin-top:12mm; display:flex; gap:7mm; flex-wrap:wrap; }
+  .divider .ix span{ font-family:var(--sans); font-size:9pt; letter-spacing:-0.01em; color:rgba(255,255,255,0.85); text-transform:uppercase; white-space:nowrap; }
+
+  /* full-bleed visual page (embed figma exports / renders) */
+  .visual{ padding:0; }
+  .visual img{ width:100%; height:100%; object-fit:contain; background:#fff; }
+  .visual.cover-img img{ object-fit:cover; }
+  .vcap{ position:absolute; left:24mm; bottom:13mm; font-family:var(--serif); font-style:italic; font-size:10pt; color:var(--grey); background:rgba(255,255,255,0.9); padding:1.5mm 3.5mm; border-radius:1.5mm; }
+
+  /* moodboard: native flex layout of high-res photos (weasyprint-reliable; replaces baked low-res screenshots) */
+  .mbrow{ display:flex; flex-wrap:wrap; gap:5mm; margin-top:8mm; }
+  .mbcell{ border-radius:2mm; overflow:hidden; background:var(--magenta-tint); }
+  .mbcell img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* image + text split */
+  .split{ display:flex; gap:14mm; align-items:flex-start; }
+  .split.center{ align-items:center; }
+  .split .col{ flex:1; min-width:0; }
+  .split .col.narrow{ flex:0 0 95mm; }
+  .imgframe{ width:100%; border-radius:3mm; overflow:hidden; }
+  .imgframe img{ width:100%; display:block; }
+  .portrait{ width:100%; height:158mm; border-radius:3mm; overflow:hidden; }
+  .portrait img{ width:100%; height:100%; object-fit:cover; }
+  .cap{ font-family:var(--serif); font-style:italic; font-size:10pt; line-height:1.35; color:var(--grey); margin-top:2.5mm; }
+
+  /* persona / case grids */
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9mm; margin-top:8mm; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:9mm; margin-top:8mm; }
+  .pcell .pname{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; font-size:15pt; letter-spacing:-0.02em; color:var(--ink); }
+  .pcell .pneed{ font-family:var(--sans); font-size:8.5pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin:1.5mm 0 3mm; }
+  .pcell .pbody{ font-family:var(--sans); font-size:10pt; line-height:1.46; color:var(--body); }
+  .pcell{ border-top:1px solid var(--line); padding-top:4mm; }
+  /* persona cards: pink name, no rule above, more air before the need-label */
+  .personas .pcell{ border-top:none; padding-top:0; }
+  .personas .pname{ color:var(--magenta); }
+  .personas .pneed{ margin-top:3.5mm; color:var(--grey); }
+
+  /* big statement */
+  .statement{ display:flex; align-items:center; }
+  .statement .big{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; letter-spacing:-0.04em; color:var(--magenta); font-size:48pt; line-height:1.05; max-width:235mm; }
+
+  /* quotes */
+  .quotes{ margin-top:6mm; }
+  .quote{ border-top:1px solid var(--line); padding:6mm 0; }
+  .quote .q{ font-family:var(--sans); font-weight:500; font-variation-settings:"wght" 500; font-size:14pt; line-height:1.42; letter-spacing:-0.015em; color:var(--ink); max-width:235mm; }
+  .quote .a{ font-family:var(--sans); font-size:9pt; color:var(--magenta); margin-top:3mm; letter-spacing:-0.01em; font-weight:600; font-variation-settings:"wght" 600; }
+  .quote .tie{ font-family:var(--serif); font-style:italic; font-size:10.5pt; color:var(--grey); margin-top:2mm; max-width:235mm; }
+
+  /* design-note callout */
+  .note{ border-top:1px solid var(--line); padding-top:4mm; margin-top:7mm; max-width:150mm; }
+  .note .nh{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:8.5pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin-bottom:2.5mm; }
+  .note p{ font-family:var(--sans); color:var(--body); font-size:10pt; line-height:1.46; }
+
+  /* prompt-card list (line-divided, no repeated boxes) */
+  .cardline{ margin-top:5mm; }
+  .cardrow{ display:grid; grid-template-columns:12mm 1fr 58mm; gap:7mm; border-top:1px solid var(--line); padding:2.3mm 0; break-inside:avoid; align-items:baseline; }
+  .cardrow .cn{ font-family:var(--display); font-weight:800; font-variation-settings:"wght" 800; font-size:17pt; color:var(--magenta); letter-spacing:-0.02em; }
+  .cardrow .ce{ font-family:var(--sans); color:var(--ink); font-size:9.5pt; line-height:1.34; letter-spacing:-0.005em; }
+  .cardrow .ci{ font-family:var(--serif); font-style:italic; font-size:8.5pt; line-height:1.26; color:var(--grey); }
+
+  /* single hero prompt card object */
+  .specimen{ width:104mm; border:2px solid var(--magenta); border-radius:4mm; padding:10mm 9mm; background:#fff; }
+  .specimen .sl{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:8pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); }
+  .specimen .se{ font-family:var(--sans); font-weight:500; font-variation-settings:"wght" 500; font-size:13pt; line-height:1.36; letter-spacing:-0.01em; margin-top:5mm; }
+  .specimen .si{ font-family:var(--serif); font-style:italic; font-size:11pt; line-height:1.32; color:var(--grey); margin-top:4mm; }
+  .specimen .snum{ font-family:var(--sans); font-size:8pt; color:var(--grey); margin-top:7mm; letter-spacing:-0.01em; }
+
+  /* contents */
+  .toc{ margin-top:5mm; column-count:2; column-gap:16mm; }
+  .toc .row{ display:flex; align-items:baseline; border-bottom:1px solid var(--line); padding:1.4mm 0; break-inside:avoid; gap:4mm; }
+  .toc .t{ flex:1 1 auto; font-family:var(--sans); font-size:9.5pt; letter-spacing:-0.01em; }
+  .toc .n{ flex:0 0 auto; font-family:var(--sans); font-size:9.5pt; color:var(--magenta); font-weight:700; font-variation-settings:"wght" 700; }
+  .toc .blk{ font-family:var(--sans); font-weight:700; font-variation-settings:"wght" 700; font-size:8.5pt; letter-spacing:-0.01em; text-transform:uppercase; color:var(--magenta); margin:3.5mm 0 1mm; break-inside:avoid; }
+  .toc .blk.first{ margin-top:0; }
+
+  /* references */
+  .refs{ column-count:2; column-gap:16mm; margin-top:6mm; }
+  .refs p{ font-family:var(--serif); font-size:9pt; line-height:1.4; margin-bottom:2.5mm; break-inside:avoid; color:var(--ink); }
+  .credits{ font-family:var(--sans); font-size:9pt; color:var(--grey); line-height:1.6; }
+
+  .lblrow{ display:flex; gap:5mm; flex-wrap:wrap; margin-top:7mm; }
+  .lblrow .l{ font-family:var(--sans); font-weight:600; font-variation-settings:"wght" 600; font-size:9pt; letter-spacing:-0.01em; color:var(--magenta); border:1px solid var(--magenta); border-radius:20pt; padding:1.6mm 4mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ FRONT MATTER ============ -->
+
+<!-- 1 · COVER -->
+<section class="page cover">
+  <div class="eyebrow">TIUS 2026 · Politecnico di Milano · School of Design</div>
+  <div class="display ttl">La Staffetta <span class="mag">·</span><br>The Relay</div>
+  <div class="sub">A chain of micro-exchanges in the Ovale.</div>
+  <div class="claim">Belonging is not about being invited to stay.<br><span class="mag">It is about having a reason to return.</span></div>
+  <div class="kw"><span>reciprocity</span><span>exchange</span><span>ritual</span><span>encounter</span><span>collective memory</span></div>
+</section>
+
+<!-- 2 · COLOPHON -->
+<section class="page">
+  <div class="running">Colophon</div>
+  <div style="margin-top:30mm; max-width:182mm;">
+    <p class="lede">A booklet on a small wooden cabinet that turns strangers into temporary neighbours, set in the Ovale at Campus Durando.</p>
+    <div style="margin-top:14mm; display:grid; grid-template-columns:46mm 1fr; gap:4.5mm 8mm; font-family:var(--sans); color:var(--body); font-size:10pt; line-height:1.5;">
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Course</div><div>Temporary and Inclusive Urban Solutions (TIUS), elective, School of Design.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Sub-theme</div><div>Democracy, Togetherness and Civicness.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Author</div><div>Efe Eren Can Bakır.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Course team</div><div>Ambra Borin, Elena Giunta, Marco Biferale.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Lab</div><div>Polimi DESIS Lab.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Site</div><div>Campus Durando, Bovisa, Milano. The Ovale.</div>
+      <div style="color:var(--magenta); font-weight:700; font-variation-settings:'wght' 700;">Deliverables</div><div>This booklet, a synthetic slide deck, and a final design proposal with an interactive digital twin.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 3 · CONTENTS -->
+<section class="page">
+  <div class="running">Contents</div>
+  <h2 class="sec" style="margin-top:8mm; font-size:30pt;">Contents</h2>
+  <div class="toc">
+    <div class="blk first">Front</div>
+    <div class="row"><span class="t">How to read this booklet</span><span class="n">04</span></div>
+    <div class="row"><span class="t">A scene in the Ovale</span><span class="n">05</span></div>
+    <div class="blk">Block 01 · Research</div>
+    <div class="row"><span class="t">The brief, in my words</span><span class="n">08</span></div>
+    <div class="row"><span class="t">Manifesto</span><span class="n">09</span></div>
+    <div class="row"><span class="t">The Ovale, read closely</span><span class="n">11</span></div>
+    <div class="row"><span class="t">Mira, Yusuf, Lina</span><span class="n">14</span></div>
+    <div class="row"><span class="t">A field, not a sample</span><span class="n">18</span></div>
+    <div class="row"><span class="t">The asynchronous tradition</span><span class="n">20</span></div>
+    <div class="row"><span class="t">Lineage: BO LEGGE</span><span class="n">21</span></div>
+    <div class="blk">Block 02 · Concept</div>
+    <div class="row"><span class="t">Three doors</span><span class="n">24</span></div>
+    <div class="row"><span class="t">La Staffetta</span><span class="n">29</span></div>
+    <div class="row"><span class="t">Designing the cabinet</span><span class="n">34</span></div>
+    <div class="row"><span class="t">The prompt card</span><span class="n">39</span></div>
+    <div class="blk">Block 03 · Development</div>
+    <div class="row"><span class="t">The relay as a system</span><span class="n">43</span></div>
+    <div class="row"><span class="t">The journey, the chain</span><span class="n">48</span></div>
+    <div class="row"><span class="t">A plan in three modes</span><span class="n">51</span></div>
+    <div class="row"><span class="t">The digital twin, the 3D</span><span class="n">52</span></div>
+    <div class="row"><span class="t">It could be built</span><span class="n">54</span></div>
+    <div class="blk">Closing</div>
+    <div class="row"><span class="t">Three texts, one position</span><span class="n">56</span></div>
+    <div class="row"><span class="t">What the relay taught me</span><span class="n">58</span></div>
+    <div class="row"><span class="t">References, credits</span><span class="n">60</span></div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 4 · HOW TO READ THIS BOOKLET -->
+<section class="page">
+  <div class="running">How to read this</div>
+  <div class="split" style="margin-top:20mm;">
+    <div class="col">
+      <h2 class="sec" style="font-size:30pt;">How to read<br>this booklet</h2>
+    </div>
+    <div class="col">
+      <p class="body" style="margin-top:3mm;">There are three deliverables in this project, and they are not the same document at three lengths. The slide deck is the argument, made quickly, out loud. The final project is the artefact, made to be touched. This booklet is the long form: the place where the project is allowed to think.</p>
+      <p class="body">So this is not a transcript of the slides. Where the deck states a conclusion, the booklet earns it. The personas become people with afternoons. The three concepts I did not choose are given their full hearing before I close them. The cabinet is taken apart and explained. The theory is argued rather than quoted.</p>
+      <p class="body">Read it as a companion to the artefact, not a manual for it. The relay is small on purpose. This booklet is the record of how much thinking a small thing can hold.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 5 · FOREWORD SCENE (narrative opening) -->
+<section class="page">
+  <div class="running">Foreword</div>
+  <div class="split center" style="margin-top:16mm;">
+    <div class="col">
+      <div class="kicker">A scene in the Ovale</div>
+      <p class="body" style="font-size:12pt; line-height:1.55;">It is late October. Mira is in her second week at Campus Durando, still learning which doors lead where, still eating lunch alone. She has walked past the wooden grid in the Ovale four or five times without stopping. Today she stops.</p>
+      <p class="body" style="font-size:12pt; line-height:1.55;">She lifts a small folded paper from one of the cubbies. As it comes loose, a card slides forward into the gap, printed on cream stock with a thin magenta edge: <span class="mark">“Someone made this with attention. Leave something made with the same attention.”</span> The paper opens into a hand-drawn map of a quiet corner near building B7.</p>
+      <p class="body" style="font-size:12pt; line-height:1.55;">Mira smiles. She tears a page from her notebook, sketches the route she takes home through Bovisa, and sets it in the cubby she just emptied. A week later, passing a wall beside the stations, she finds her sketch pinned in a row with three others. She did not have to introduce herself to anyone to belong here.</p>
+    </div>
+    <div class="col narrow">
+      <div class="portrait"><img src="img/scene.jpg" alt="The Ovale at Campus Durando, the Relay Cabinet on the path beside a bench" /></div>
+      <div class="cap">The Ovale, late afternoon. The cabinet sits on the perimeter path, facing the sun, beside an existing bench.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 6 · FOREWORD PULL -->
+<section class="page statement" style="justify-content:center;">
+  <div>
+    <div class="eyebrow">What the scene is doing</div>
+    <div class="pull serif" style="margin-top:8mm; font-size:33pt; max-width:235mm;">No app opened. No stranger spoken to. No permission asked. One small object changed hands, and a transitional corridor briefly became a place that <span class="mag">remembered her</span>.</div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- ============ BLOCK 01 ============ -->
+
+<!-- 7 · BLOCK 01 DIVIDER -->
+<section class="page divider">
+  <div class="num">BLOCK 01</div>
+  <div class="ttl">Inspirational &amp;<br>Contextual<br>Research</div>
+  <div class="abs">The assigned topic and how I read it. A manifesto, the chosen site read closely, the people the space is for, the field of precedent the project belongs to, and the local lineage it extends.</div>
+  <div class="ix"><span>Manifesto</span><span>The Ovale</span><span>Personas</span><span>Precedent</span><span>BO LEGGE</span></div>
+</section>
+
+<!-- 8 · THE BRIEF IN MY WORDS -->
+<section class="page">
+  <div class="running">Block 01 · The brief</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:30pt;">The brief, in my words</h2>
+  <div class="flow2" style="column-count:2;">
+    <p class="body first" style="max-width:none;">TIUS asks for temporary and inclusive urban solutions, and gives the work a sub-theme: democracy, togetherness, and civicness. The course, taught inside the Polimi DESIS Lab, has a particular grain. It treats the city as something already in daily transformation, and it treats the designer not as an author who imposes a finished object but as a facilitator who makes a better interaction more likely, then steps back.</p>
+    <p class="body" style="max-width:none;">Davide Fassi, whose <em>Temporary Urban Solutions</em> founds the course, calls these interventions provisional rather than ephemeral. They work here and now, on a single urban interior, and they leave a legacy without occupying. That framing decided the scale of my project before I had a concept. Whatever I made had to be small, removable, and answerable to a real community on a real campus.</p>
+    <p class="body" style="max-width:none;">The remote brief sharpened it further. The course team waived the one-to-one spatial prototype and asked instead for a proposal that is graphic, communicative, visual, and interaction-driven. I read that not as a reduction but as a redirection: the work should live in journeys, maps, storyboards, renderings, and a working digital artefact, rather than in plywood. This booklet, the deck, and the interactive twin are that redirection taken seriously.</p>
+    <p class="body" style="max-width:none;">So the brief, in my words: take one overlooked corner of Campus Durando and give it a reason to hold people, using the smallest honest intervention I can defend, communicated entirely through design.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 9 · MANIFESTO -->
+<section class="page">
+  <div class="running">Block 01 · Manifesto</div>
+  <div style="margin-top:26mm; max-width:218mm;">
+    <p class="display" style="font-size:30pt; color:var(--magenta); letter-spacing:-0.03em; line-height:1.12;">Design for a sense of belonging, coexistence, and informal participation.</p>
+    <p class="body" style="margin-top:10mm; font-size:13pt;">Togetherness is not the simple sharing of space. It is the real possibility of being present, visible, comfortable, and involved within it.</p>
+    <p class="body" style="font-size:13pt;">Campus Durando's transitional spaces organise movement efficiently, but they do not always support staying, meeting, or participating.</p>
+    <p class="body" style="font-size:13pt;">Democratic space is built through small but decisive conditions: legibility, invitation, flexibility, comfort, and the permission to stay. A temporary intervention can reveal a hidden barrier and activate an overlooked place.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 10 · THE OVALE -->
+<section class="page">
+  <div class="running">Block 01 · The Ovale</div>
+  <div class="split" style="margin-top:18mm;">
+    <div class="col">
+      <h2 class="sec">The Ovale</h2>
+      <p class="body">An oval transitional space at the heart of Campus Durando. People pass through it constantly, sometimes stop, rarely linger.</p>
+      <p class="body">It is socially active but weakly structured. It offers visibility but not always invitation. You can see others use the space, yet the space itself proposes nothing for you to do.</p>
+      <p class="body">It reveals the tension the whole project turns on: the difference between <span class="mag">circulation</span> and <span class="mag">belonging</span>. Efficient as a corridor, ambiguous as a place. A small gesture here reaches many people without rerouting anyone.</p>
+    </div>
+    <div class="col">
+      <div class="imgframe"><img src="img/ovale-good.jpg" alt="The Ovale at Campus Durando" /></div>
+      <div class="cap">The Ovale: open, sunlit, surrounded by the campus buildings. Heavily walked, lightly inhabited.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 11 · THE OVALE READ CLOSELY -->
+<section class="page">
+  <div class="running">Block 01 · Reading the site</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:29pt;">The Ovale, read closely</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">Stand at the edge of the Ovale for twenty minutes and a pattern resolves. The diagonal across the middle is the fastest line between two doors, and almost everyone takes it. The perimeter, with its benches, is where the few who stay actually sit. Newcomers walk the perimeter even when they are in a hurry, because the edge is legible and the middle is exposed.</p>
+    <p class="body" style="max-width:none;">Ray Oldenburg would call what is missing a third place: not classroom, not studio, but a neutral ground that levels whoever arrives and rewards the regular. The Ovale has the location for one and none of the equipment. There is nothing to be a regular <em>of</em>. There is no low-stakes thing to do that justifies standing still.</p>
+    <p class="body" style="max-width:none;">Richard Sennett's distinction helps name the goal. A boundary is a sealed wall where life stops; a border is a porous membrane where exchange happens. The Ovale today behaves like a boundary you cross. The intervention should turn one point of it into a border: a place where something passes between people, and where passing through and taking part stop being opposites.</p>
+    <p class="body" style="max-width:none;">This is the whole design problem in one sentence. The space already gathers people; it simply gives them nothing to do together. The relay is the smallest thing I could add that changes that without asking anyone to slow down for longer than it takes to open a cubby.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 12 · WHO THE SPACE IS FOR (intro) -->
+<section class="page">
+  <div class="running">Block 01 · Personas</div>
+  <div class="split center" style="margin-top:18mm;">
+    <div class="col">
+      <h2 class="sec ink" style="font-size:29pt;">Who the<br>space is for</h2>
+    </div>
+    <div class="col">
+      <p class="body" style="margin-top:3mm;">Five personas came out of the research, three primary and two secondary. They are not market segments. They are pressure tests: if the relay works for the most cautious person in the Ovale, it works for everyone less cautious too.</p>
+      <p class="body">The three primary personas share one condition. They are all present in the space without quite having permission to use it. The Newcomer does not know if she is allowed to linger. The International Student cannot read the social code fast enough to join. The Organizer has things to start and nowhere to start them. The next pages give each of them a name and an afternoon.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 13 · PRIMARY PERSONAS GRID -->
+<section class="page">
+  <div class="running">Block 01 · Primary personas</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">Three primary personas</h2>
+  <div class="grid3 personas">
+    <div class="pcell">
+      <div class="pname">Mira · Newcomer</div>
+      <div class="pneed">Visible invitations to stay</div>
+      <div class="pbody">New to Polimi. Reads cues carefully before acting and will not initiate. Sits only if someone else already sits. Needs a first-time signal that says “this is for you too,” and a low-stakes way to take part.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname">Yusuf · International</div>
+      <div class="pneed">Low-threshold, readable space</div>
+      <div class="pbody">Partial campus literacy. Cannot easily tell who belongs in a space or how to enter a conversation. Operates with low-grade caution. Needs symbolic, language-light legibility that does not require improvising in Italian.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname">Lina · Organizer</div>
+      <div class="pneed">A flexible micro-platform</div>
+      <div class="pbody">Runs an informal group and constantly needs somewhere to do the thing without booking or permitting it. Wants to initiate in public space. The relay's anchor persona: it makes the micro-platform permanent infrastructure for temporary use.</div>
+    </div>
+  </div>
+  <div class="note">
+    <div class="nh">Method</div>
+    <p>The personas were built from observation of the Ovale and from the course's own framing, then carried forward as a constraint, not decoration. Every later decision is checked against them: does this serve Mira, Yusuf, and Lina at once, through the same single action?</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 14 · MIRA VIGNETTE -->
+<section class="page">
+  <div class="running">Block 01 · Mira</div>
+  <div class="split center" style="margin-top:14mm;">
+    <div class="col narrow">
+      <div class="portrait"><img src="img/mira.jpg" alt="Mira, the Newcomer" /></div>
+      <div class="cap">Mira, first year. Reads the room before she enters it.</div>
+    </div>
+    <div class="col">
+      <div class="kicker">Newcomer · an afternoon</div>
+      <p class="body">Mira has a free hour and no plan. The friend she was meeting cancelled, and now she is the thing she hates being in public: visibly unoccupied. She walks the perimeter of the Ovale once, the way she always does, and slows at the wooden cabinet because someone else is there first and that makes it safe.</p>
+      <p class="body">She watches a student take a small object, read something, leave something, and walk off without ceremony. No sign-up. No one watching. When her turn comes she opens a cubby almost guiltily and finds a folded note and a card that asks nothing of her except to leave a question for whoever opens it tomorrow.</p>
+      <p class="body">A question she can do. She writes one, leaves it, and walks to class. For the first time that week she has done something on campus that was hers, that no one had to grant her, and that someone she will never meet is now holding.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 15 · YUSUF VIGNETTE -->
+<section class="page">
+  <div class="running">Block 01 · Yusuf</div>
+  <div class="split center" style="margin-top:14mm;">
+    <div class="col">
+      <div class="kicker">International student · a week</div>
+      <p class="body">Yusuf's Italian is good enough for a seminar and not good enough for a joke. The gap shows most in unstructured moments, the loose minutes before a class or over lunch, when a group is clearly open to someone but he cannot tell if that someone is him, and the cost of guessing wrong is a small public embarrassment he would rather avoid.</p>
+      <p class="body">The cabinet does not require him to guess. The action is the same for everyone and it is legible without a single word: a grid, some objects, an obvious gap where things are taken and left. He takes a metro token someone left and leaves a transit card from his own city, no translation needed.</p>
+      <p class="body">Over a week he checks it the way you check a window box. The chain on the wall shows him something the seminar never does: that contribution here is varied, ordinary, and unjudged. He is not failing a test he cannot read. There is no test.</p>
+    </div>
+    <div class="col narrow">
+      <div class="portrait"><img src="img/yusuf.jpg" alt="Yusuf, the International Student" /></div>
+      <div class="cap">Yusuf, exchange student. Fluent in the seminar, cautious in the corridor.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 16 · LINA VIGNETTE -->
+<section class="page">
+  <div class="running">Block 01 · Lina</div>
+  <div class="split center" style="margin-top:14mm;">
+    <div class="col narrow">
+      <div class="portrait"><img src="img/lina.jpg" alt="Lina, the Student Organizer" /></div>
+      <div class="cap">Lina, third year. Always starting something, always needing somewhere to start it.</div>
+    </div>
+    <div class="col">
+      <div class="kicker">Organizer · a term</div>
+      <p class="body">Lina runs a small zine collective, and her recurring problem is not ideas but ground. Every gathering means a folding table, a quiet negotiation with whoever might object, and a setup that vanishes the moment it ends, taking its momentum with it. The Ovale treats each of her events as an exception to be tolerated rather than a use to be hosted.</p>
+      <p class="body">The relay flips that. It is permanent where her activity is temporary. She seeds one cubby with a folded zine and a prompt inviting the next person to add a page, and over the term the cabinet does the recruiting she used to do by hand. People she never flyered find the collective through an object.</p>
+      <p class="body">The exhibition wall does the rest. Her accumulated exchanges become visible evidence that something is happening here, which is the one thing a folding table could never leave behind: a trace.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 17 · SECONDARY PERSONAS + TENSIONS -->
+<section class="page">
+  <div class="running">Block 01 · Personas and tensions</div>
+  <div class="split" style="margin-top:16mm;">
+    <div class="col">
+      <h2 class="sec" style="font-size:24pt;">Secondary personas</h2>
+      <div class="grid2 personas" style="margin-top:6mm;">
+        <div class="pcell">
+          <div class="pname" style="font-size:13pt;">Visiting Guest</div>
+          <div class="pneed">Immediate clarity</div>
+          <div class="pbody">Reads the space in ten seconds, forms a first impression of the institution from it, will not engage with anything that needs explaining.</div>
+        </div>
+        <div class="pcell">
+          <div class="pname" style="font-size:13pt;">Campus Staff</div>
+          <div class="pneed">Order, manageable use</div>
+          <div class="pbody">Notices anomalies fast and removes things by default. The relay's quietest user but hardest filter: it must read as sanctioned, not as litter.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <h2 class="sec" style="font-size:24pt;">Shared tensions</h2>
+      <p class="body" style="margin-top:6mm;">The space supports circulation but not equally belonging. Some move with ease, others need a social invitation. The area is visible and shared, yet under-designed.</p>
+      <p class="body">Presence without permission. People are there; the licence to stay, contribute, and be seen is missing. That gap is the target, and the relay aims at it from the lowest possible angle.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 18 · A FIELD NOT A SAMPLE -->
+<section class="page">
+  <div class="running">Block 01 · Precedent</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:28pt;">A field, not a sample</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">A project earns its legitimacy partly from the company it keeps. La Staffetta sits inside three lineages that run in parallel, and naming them precisely is more honest than claiming originality.</p>
+    <p class="body" style="max-width:none;">The first is the Constructlab kiosk family: Messy Kiosk, Kiosk of Solidarity, and, in Milan, the Kiosk of Reciprocity built with TempoRiuso and the BRIChECO social carpentry. Small wooden nodes that carry content rather than just deliver it. From them La Staffetta takes its typology, a warm, low, content-bearing object.</p>
+    <p class="body" style="max-width:none;">The second is the Polimi DESIS Lab tradition on this exact campus: Coltivando's convivial garden, running since 2011; Off Campus Nolo; the distributed installations of The Queer City and Regine di Periferia. From them it inherits a method, co-design with students and community, deployed on Bovisa Durando, documented as research by design.</p>
+    <p class="body" style="max-width:none;">The third is older and the course does not teach it: the asynchronous-exchange tradition. That one deserves its own page.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 19 · THREE CASES (the immediate references) -->
+<section class="page">
+  <div class="running">Block 01 · Reference cases</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:25pt;">Three cases, one reading</h2>
+  <div class="grid3">
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">Kiosk of Reciprocity</div>
+      <div class="pneed">Milan 2024 · Constructlab + TempoRiuso</div>
+      <div class="pbody">A modular wooden cargo-bike kiosk that travels Milanese neighbourhoods supporting an economy of proximity. A small, visibly open node turns passing space into a place of encounter without occupying it permanently.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">Regine di Periferia</div>
+      <div class="pneed">Milan 2024 · Polimi DESIS Lab</div>
+      <div class="pbody">Drag-led co-design workshops reimagining public space with human and non-human subjectivities. Legitimacy and the permission to use a space differently are built through participation, not delivered as a finished object.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">Kiosk of Solidarity</div>
+      <div class="pneed">Berlin 2023 · Constructlab</div>
+      <div class="pbody">A mobile platform that hosted eleven Berlin solidarity initiatives in turn. When a small node carries content, things to discuss, to give, to leave, it becomes infrastructure rather than furniture.</div>
+    </div>
+  </div>
+  <p class="body" style="margin-top:9mm; max-width:235mm;">The three agree on a reading. Small, temporary, and visible beats large, permanent, and generic. The object must carry content. Participation precedes form. Those three principles shaped the relay directly, before any drawing existed.</p>
+  <div class="pageno"></div>
+</section>
+
+<!-- 20 · THE ASYNCHRONOUS TRADITION -->
+<section class="page">
+  <div class="running">Block 01 · The asynchronous tradition</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:25pt;">The tradition the course does not teach</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The course teaches co-design, which is synchronous: people in a room, designing together. La Staffetta is the opposite shape. It is asynchronous, anonymous, and cumulative, and that tradition has a long pedigree worth standing inside.</p>
+    <p class="body" style="max-width:none;">The deepest precedent is the Japanese <em>ema</em>: for a thousand years, worshippers have written a wish on a small wooden plaque, hung it at the shrine, and let the collection be ritually burned and begun again. Small wooden object, handwritten message, collective display, periodic reset. The relay's cycle is structurally the ema's.</p>
+    <p class="body" style="max-width:none;">Closer to now: the Little Free Library, the most replicated micro-infrastructure on earth, is take a book, leave a book, with no librarian and no registration. Candy Chang's <em>Before I Die</em> proved a printed prompt can activate strangers in public. PostSecret and BookCrossing both make private gestures cumulatively visible. Yoko Ono's Wish Tree gathers anonymous wishes and refuses to read them.</p>
+    <p class="body" style="max-width:none;">La Staffetta is recognisably of this family, and it differs in one move. The Little Free Library and the Wish Tree are one-way. The relay closes the loop: the prompt card links each exchange to the one before, so the object does not just circulate, it carries a conversation.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 21 · BO LEGGE LINEAGE -->
+<section class="page">
+  <div class="running">Block 01 · Lineage</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">A local lineage: BO LEGGE</h2>
+  <p class="lede" style="margin-top:5mm; max-width:218mm;">The most honest precedent is not international but local. BO LEGGE, a bookcrossing installation run by TIUS students at this same Bovisa campus in 2013 and 2014, under this same course, put books into public circulation. Readers took, readers returned, the neighbourhood became a temporary library.</p>
+  <div class="flow2" style="margin-top:7mm;">
+    <p class="body first" style="max-width:none;">La Staffetta inherits BO LEGGE's grain and its setting. What it adds is the link. Each exchange connects to the previous one through a prompt card, so the relay is not bookcrossing but chain-making. BO LEGGE moved objects. La Staffetta moves a conversation through objects, between strangers who never meet, and the exhibition wall makes that conversation visible to anyone walking past.</p>
+    <p class="body" style="max-width:none;">Acknowledging this is the project's strongest claim to legitimacy, not its weakness. La Staffetta is the third Bovisa instalment in the same object-exchange-as-civic-fabric family, not a one-off import. It extends the school's own tradition. It is also quietly adjacent to Ambra Borin's own research on situated, anonymous-but-located vocabulary, which makes the prompt-card protocol legible inside the lab it would be born into.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 22 · INITIAL DIRECTION -->
+<section class="page statement">
+  <div class="running ink" style="color:var(--magenta);">Block 01 · Direction</div>
+  <div class="big">Transitional campus spaces must create a greater sense of belonging, encouraging people to stay and supporting togetherness.</div>
+  <div class="pageno"></div>
+</section>
+
+<!-- ============ BLOCK 02 ============ -->
+
+<!-- 23 · BLOCK 02 DIVIDER -->
+<section class="page divider">
+  <div class="num">BLOCK 02</div>
+  <div class="ttl">Concept<br>Generation</div>
+  <div class="sub">Three doors, and the one I walked through.</div>
+  <div class="abs">Three concepts narrowed to one, with the two I closed given their full hearing. Then La Staffetta itself: its name, its claim, its five keywords, the cabinet taken apart, and the card that turns exchange into a chain.</div>
+  <div class="ix"><span>Soglia</span><span>Zona Grigia</span><span>La Staffetta</span><span>The cabinet</span><span>The card</span></div>
+</section>
+
+<!-- 24 · THREE DOORS -->
+<section class="page">
+  <div class="running">Block 02 · Ideation</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:29pt;">Three doors</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">Ideation produced three concepts, not one, and they were genuinely different answers rather than three versions of the same idea. Each took the same brief, a transitional campus space that does not invite staying, and pushed on a different lever.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Soglia</span> worked on the floor. It asked whether the surface underfoot could tell you what kind of space you are in, slowing your pace and signalling that you may stay.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Zona Grigia</span> worked on permission. It asked whether a space could deliberately refuse to declare its purpose, so that everyone is equally uncertain and therefore equally entitled to test it.</p>
+    <p class="body" style="max-width:none;"><span class="mark">La Staffetta</span> worked on exchange. It asked what would make a person come back, and answered with a small object passed between strangers across time.</p>
+    <p class="body" style="max-width:none;">I did not choose by elimination of weak ideas. All three were strong. I chose the one that carried furthest through the medium this brief actually rewards. The next two pages give Soglia and Zona Grigia the hearing they earned before I explain that choice.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 25 · SOGLIA -->
+<section class="page">
+  <div class="running">Block 02 · Archived concept</div>
+  <div class="split" style="margin-top:16mm;">
+    <div class="col">
+      <h2 class="sec ink" style="font-size:26pt;">Soglia<br><span style="font-family:var(--serif); font-weight:500; font-size:14pt; color:var(--grey); letter-spacing:-0.01em;">Threshold</span></h2>
+      <p class="body" style="margin-top:5mm;">A rotating ground installation that rewrites the rules of passing through. The Ovale's surface is periodically transformed: soft tactile zones, coloured markings, textural shifts that physically slow you and signal that you may stay. Not furniture, not walls. The intervention happens under your feet, and reconfigures each week.</p>
+      <p class="body"><span class="mark">“When the ground beneath you changes, your pace changes, and so does your willingness to stay.”</span></p>
+    </div>
+    <div class="col">
+      <div class="note" style="margin-top:0;">
+        <div class="nh" style="color:var(--ink);">Why I closed it</div>
+        <p>Soglia answers a different question from the one I most wanted to answer. It asks how a surface tells you what kind of space you are in, not what makes you come back. And it lives or dies on a sensory, material prototype, exactly the thing a remote, screen-based brief communicates worst. Its weekly-reconfiguration logic and its argument about the body's pace survive into La Staffetta's thinking about ritual and return.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 26 · ZONA GRIGIA -->
+<section class="page">
+  <div class="running">Block 02 · Archived concept</div>
+  <div class="split" style="margin-top:16mm;">
+    <div class="col">
+      <h2 class="sec ink" style="font-size:26pt;">Zona Grigia<br><span style="font-family:var(--serif); font-weight:500; font-size:14pt; color:var(--grey); letter-spacing:-0.01em;">Gray Zone</span></h2>
+      <p class="body" style="margin-top:5mm;">A deliberately ambiguous space that resists single-use classification. A clearly demarcated area with no chairs, no tables, no program, no explanatory signage. Only a visible boundary, a surface, and one rule: it cannot be reserved by any group for more than thirty minutes. People test it, and the space becomes a mirror of the community's latent desires.</p>
+      <p class="body"><span class="mark">“The most inclusive spaces are the ones that refuse to tell you what they are for.”</span></p>
+    </div>
+    <div class="col">
+      <div class="note" style="margin-top:0;">
+        <div class="nh" style="color:var(--ink);">Why I closed it</div>
+        <p>Zona Grigia is the most philosophically pure of the three, and that purity is the risk. A remote brief favours articulated, communicable proposals, and an intentionally undefined project is hard to articulate without contradicting itself. La Staffetta keeps its best idea, that legibility is not the same as prescription, and grounds it in an object you can actually read. The thirty-minute rule, a tiny protocol that shapes behaviour without instruction, survives as the relay's leave-to-take rule.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 27 · WHY LA STAFFETTA + funnel -->
+<section class="page visual"><img src="img/fig-03.png" alt="Concept funnel: three concepts consolidate around La Staffetta" />
+  <div class="vcap">Concept funnel. Soglia and Zona Grigia narrow to La Staffetta on four criteria.</div>
+</section>
+
+<!-- 28 · WHY LA STAFFETTA (reasons) -->
+<section class="page">
+  <div class="running">Block 02 · The decision</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:26pt;">Why La Staffetta</h2>
+  <p class="body" style="max-width:235mm;">The brief's constraints, graphic and interaction-driven, no one-to-one prototype, did not weaken the choice. They made it. La Staffetta carries through the work the course is actually asking for, in four ways.</p>
+  <div class="grid2" style="margin-top:8mm;">
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">It is service design by nature</div>
+      <div class="pbody" style="margin-top:2mm;">Ecosystem maps, actor maps, and user journeys are core artefacts of the relay, not afterthoughts. Block 03's analytical work has an obvious place to go.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">Its medium is storytelling</div>
+      <div class="pbody" style="margin-top:2mm;">The chain is a narrative by structure. A storyboard and a photomontage do more for it than a built prototype would, and narrative is what a booklet and a final project carry best.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">The identity extends forward</div>
+      <div class="pbody" style="margin-top:2mm;">Signage, prompt cards, station accents, exhibition wall: all already speak the magenta-led visual language Block 01 established. Nothing has to be reinvented.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:13pt;">Three modes fall out of it</div>
+      <div class="pbody" style="margin-top:2mm;">Spatial, service, and VR/AR are not parallel options to pick between. They are three readings of the same artefact, which is exactly the prototyping plan the brief requests.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 29 · LA STAFFETTA CONCEPT -->
+<section class="page">
+  <div class="running">Block 02 · La Staffetta</div>
+  <div class="split" style="margin-top:16mm;">
+    <div class="col">
+      <h2 class="sec">La Staffetta</h2>
+      <p class="body">A small system of wooden exchange stations embedded in the Ovale. Not a bulletin board but a designed chain reaction. You leave something, a drawing, a note, a recipe, a seed, a small object, and you take something someone else left.</p>
+      <p class="body">The catch is the link. When you take an object, you receive a prompt connected to what the previous person left. Two strangers, who never meet, are in conversation through a third thing.</p>
+      <p class="body">Over weeks the chains aggregate. Photographs of each exchange are pinned to a temporary wall, where the invisible network of campus encounters becomes legible. The relay is asynchronous, anonymous by default, and cumulative.</p>
+    </div>
+    <div class="col">
+      <div class="imgframe"><img src="img/cabinet.jpg" alt="The Relay Cabinet, design study" /></div>
+      <div class="cap">The Relay Cabinet. Warm larch, magenta painted only on the interior back walls, so an empty cubby reads as invitation.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 30 · THE NAME, THE CLAIM -->
+<section class="page">
+  <div class="running">Block 02 · Language</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">The name, the claim</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The title is bilingual on purpose. <span class="mark">La Staffetta</span> carries the Milanese, Polimi texture and names the relay race, the passing of a baton from hand to hand. <span class="mark">The Relay</span> makes that metaphor legible to anyone who picks the booklet up cold. The interpunct keeps them equal, two names for one thing, not an original and its translation.</p>
+    <p class="body" style="max-width:none;">The subtitle stays concrete. A chain of micro-exchanges in the Ovale names what the project is and where it is, and resists the pull toward abstraction. The booklet's body can be abstract; the subtitle should anchor.</p>
+    <p class="body" style="max-width:none;">The claim is the load-bearing sentence: <span class="mark">belonging is not about being invited to stay, it is about having a reason to return.</span> The contrast is the whole interaction logic in two clauses. A sign or a kiosk invites you to stay, once. The relay gives you a reason to come back, because a chain you contributed to is still running without you.</p>
+    <p class="body" style="max-width:none;">These words appear verbatim on the cover, the opening of the deck, and the title of the final project. They are not paraphrased anywhere, because consistency is itself a design decision.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 31 · FIVE KEYWORDS -->
+<section class="page">
+  <div class="running">Block 02 · Keywords</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:26pt;">Five keywords, mapped to mechanism</h2>
+  <p class="body" style="max-width:235mm;">The five keywords are not mood words. Each one names a specific part of the design, which is how I keep them honest.</p>
+  <div style="margin-top:8mm; display:grid; grid-template-columns:42mm 1fr; gap:0 10mm;">
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><span class="display" style="font-size:16pt; color:var(--magenta);">reciprocity</span></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><p class="body" style="font-size:11pt; max-width:none;">The leave-to-take rule. The fairness of the exchange. Nothing is given without something offered.</p></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><span class="display" style="font-size:16pt; color:var(--magenta);">exchange</span></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><p class="body" style="font-size:11pt; max-width:none;">The unit of the relay. The small act between two strangers, mediated by an object.</p></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><span class="display" style="font-size:16pt; color:var(--magenta);">ritual</span></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><p class="body" style="font-size:11pt; max-width:none;">The repeated, light, low-stakes nature of the action. What makes it sustainable, asynchronous, cumulative.</p></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><span class="display" style="font-size:16pt; color:var(--magenta);">encounter</span></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><p class="body" style="font-size:11pt; max-width:none;">The strangers-meeting-on-objects logic. The chain across users that the wall makes visible.</p></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><span class="display" style="font-size:16pt; color:var(--magenta);">collective memory</span></div>
+    <div style="border-top:1px solid var(--line); padding:4mm 0;"><p class="body" style="font-size:11pt; max-width:none;">The exhibition wall. What the relay produces over time: a chronicle of presence.</p></div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 32 · MOODBOARD ×2 (native flex layout, high-res sources, not baked screenshots) -->
+<section class="page">
+  <div style="display:flex; justify-content:space-between; align-items:baseline;">
+    <div class="eyebrow">Moodboard</div>
+    <div class="eyebrow">Tone · material · gesture</div>
+  </div>
+  <div class="mbrow">
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-a.jpg" alt="Cabinet cubbies holding small left objects" /></div>
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-b.jpg" alt="A student reading a prompt card" /></div>
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-c.jpg" alt="Cards, objects and a magenta thread on a table" /></div>
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-d.jpg" alt="Magenta-painted cubby interiors" /></div>
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-e.jpg" alt="A folded paper crane resting on a prompt card" /></div>
+    <div class="mbcell" style="width:79.6mm; height:71mm;"><img src="img/mb-f.jpg" alt="A stack of handwritten exchange cards" /></div>
+  </div>
+</section>
+<section class="page">
+  <div style="display:flex; justify-content:space-between; align-items:baseline;">
+    <div class="eyebrow">Moodboard · at scale</div>
+    <div class="eyebrow">Wall · chain · contribution</div>
+  </div>
+  <div class="mbcell" style="width:100%; height:90mm; margin-top:8mm;"><img src="img/mbs-hero.jpg" alt="The relay in the Ovale, threads linking exchanges across the wall" /></div>
+  <div class="mbrow" style="margin-top:5mm;">
+    <div class="mbcell" style="width:79.6mm; height:54mm;"><img src="img/mbs-a.jpg" alt="A passer-by pausing to leave a contribution" /></div>
+    <div class="mbcell" style="width:79.6mm; height:54mm;"><img src="img/mbs-b.jpg" alt="People gathering at the exhibition wall" /></div>
+    <div class="mbcell" style="width:79.6mm; height:54mm;"><img src="img/mbs-c.jpg" alt="The Ovale alive around the relay at dusk" /></div>
+  </div>
+</section>
+
+<!-- 33 · DESIGNING THE CABINET -->
+<section class="page">
+  <div class="running">Block 02 · The cabinet</div>
+  <div class="split" style="margin-top:14mm;">
+    <div class="col narrow">
+      <div class="portrait" style="height:150mm;"><img src="img/cabinet-maquette.jpg" alt="The Relay Cabinet, design study close-up" /></div>
+      <div class="cap">Five columns, four rows. Twenty cubbies, sized for the hand.</div>
+    </div>
+    <div class="col">
+      <h2 class="sec ink" style="font-size:25pt;">Designing the cabinet</h2>
+      <p class="body" style="margin-top:4mm;">The form went through shelves, a wardrobe, a post-box wall, before settling on a grid of open cubbies. The grid won because it does three things at once: it is instantly legible, it scales the action down to the size of a single hand, and it makes emptiness visible.</p>
+      <p class="body">Five columns by four rows, twenty cubbies. Small enough that no single object dominates, many enough that the cabinet always holds a mix of full and empty. The material is warm larch, chosen for the same reason it suits Milan's climate: it ages well and reads as cared-for, not temporary in the disposable sense.</p>
+      <p class="body">The proportions are domestic, roughly chest height, so an adult reads it as furniture rather than infrastructure. It is meant to feel like something that belongs to the people who use it, not something the institution installed and forgot.</p>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 34 · WHY MAGENTA LIVES ONLY INSIDE -->
+<section class="page">
+  <div class="running">Block 02 · The cabinet</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:25pt;">Why magenta lives only inside</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The single most important decision about the cabinet is where the colour goes. Magenta is painted only on the interior back wall of each cubby. The wood stays wood everywhere else. This is not a styling choice. It is the interaction.</p>
+    <p class="body" style="max-width:none;">When a cubby is full, the object hides the colour and the cubby reads as ordinary. When a cubby is empty, the magenta is exposed and it glows. So emptiness becomes the brightest thing on the object. An empty cubby does not read as a gap or a failure. It reads as an invitation, lit from inside.</p>
+    <p class="body" style="max-width:none;">Donald Norman's vocabulary is exact here. The open cubby <em>affords</em> leaving and taking, the action is physically possible and obvious. The magenta is the <em>signifier</em>, it tells you where the action should happen, without a single instruction. A first-time user reads the cabinet correctly because the colour does the explaining that a sign would otherwise have to do.</p>
+    <p class="body" style="max-width:none;">It also means the cabinet communicates its own state at a glance, from across the Ovale. A wall of glowing magenta is a cabinet asking to be filled. A wall of wood is a cabinet that is full and working. The object is its own status display.</p>
+  </div>
+  <div class="note">
+    <div class="nh">Carried into the final project</div>
+    <p>This exact behaviour, empty cubby glows, full cubby goes quiet, is what the interactive 3D artefact in Block 03 lets you see and rotate in real time. The colour logic is the through-line from concept to artefact.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 35 · PERSONA-CONCEPT MATRIX -->
+<section class="page visual"><img src="img/fig-04.png" alt="Persona to concept matrix" />
+  <div class="vcap">Persona to concept. How each primary persona enters through one shared action.</div>
+</section>
+
+<!-- 36 · MANIFESTO TO MECHANISM -->
+<section class="page visual"><img src="img/fig-05.png" alt="Manifesto to mechanism" />
+  <div class="vcap">Manifesto to mechanism. From the course's values to the relay's moving parts.</div>
+</section>
+
+<!-- 37 · INTERACTION LOOP -->
+<section class="page visual"><img src="img/fig-06.png" alt="Interaction loop" />
+  <div class="vcap">The interaction loop. Take, read, leave, and the chain advances by one.</div>
+</section>
+
+<!-- 38 · THE PROMPT CARD (philosophy) -->
+<section class="page">
+  <div class="running">Block 02 · The card</div>
+  <div class="split" style="margin-top:14mm;">
+    <div class="col">
+      <h2 class="sec ink" style="font-size:25pt;">The prompt card, the link</h2>
+      <p class="body" style="margin-top:4mm;">Without the card, this is bookcrossing. With it, this is La Staffetta. The card is the small printed object you receive when you take from a cubby, and it is the only thing that turns a pile of exchanges into a chain.</p>
+      <p class="body">A few rules keep it working. It refers to the previous person's gesture, never their specific object, so it works whether they left a crane or a seed. It invites rather than instructs. It stays under twenty-five words, readable in five seconds. It never asks who left it or who you are, because the whole grain of the relay is that you can act without declaring.</p>
+      <p class="body">It is printed bilingually, English on one face and Italian on the other, so the language-light persona is served without translation. The card carries no project name and no Polimi marks. The card is the prompt; the branding lives on the station body.</p>
+    </div>
+    <div class="col" style="display:flex; align-items:center; justify-content:center;">
+      <div class="specimen">
+        <div class="sl">The prompt that travels with it</div>
+        <div class="se">“Three people held what you take. You are the fourth. Pass something on.”</div>
+        <div class="si">Tre persone hanno tenuto questo prima di te. Tu sei il quarto. Passa qualcosa avanti.</div>
+        <div class="snum">card 03 / circulation set</div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 39 · TEN CARDS -->
+<section class="page">
+  <div class="running">Block 02 · The card set</div>
+  <h2 class="sec ink" style="margin-top:8mm; font-size:21pt;">Ten cards in circulation</h2>
+  <p class="body" style="max-width:235mm; font-size:10pt;">A set of fifty to sixty runs at once, ten retired and ten added each term. Ten of the first round, English with its Italian beneath.</p>
+  <div class="cardline">
+    <div class="cardrow"><div class="cn">01</div><div class="ce">“Someone made this with attention. Leave something made with the same attention.”</div><div class="ci">Qualcuno ha fatto questo con cura. Lascia qualcosa fatto con la stessa cura.</div></div>
+    <div class="cardrow"><div class="cn">02</div><div class="ce">“Whoever placed this here was thinking of someone they will never meet. Who comes to mind for you?”</div><div class="ci">Chi ha messo questo qui pensava a qualcuno che non incontrerà mai. A chi pensi tu, ora?</div></div>
+    <div class="cardrow"><div class="cn">03</div><div class="ce">“Three people held what you take. You are the fourth. Pass something on.”</div><div class="ci">Tre persone hanno tenuto questo prima di te. Tu sei il quarto. Passa qualcosa avanti.</div></div>
+    <div class="cardrow"><div class="cn">04</div><div class="ce">“No name. No introduction. Just leave a question for whoever opens this cubby tomorrow.”</div><div class="ci">Nessun nome. Nessuna presentazione. Lascia una domanda per chi aprirà questo cassetto domani.</div></div>
+    <div class="cardrow"><div class="cn">05</div><div class="ce">“What was left here was once carried somewhere. What do you carry today that you could leave behind?”</div><div class="ci">Quello che era qui qualcuno l'ha portato fin qui. Cosa porti tu oggi che potresti lasciare?</div></div>
+    <div class="cardrow"><div class="cn">06</div><div class="ce">“Imagine the person who left this. Imagine the person who will take what you leave. They will not meet.”</div><div class="ci">Immagina chi ha lasciato questo. Immagina chi prenderà ciò che lascerai. Non si incontreranno.</div></div>
+    <div class="cardrow"><div class="cn">07</div><div class="ce">“Take this with you. In return, leave something a stranger could carry home.”</div><div class="ci">Porta questo con te. In cambio, lascia qualcosa che uno sconosciuto potrebbe portarsi a casa.</div></div>
+    <div class="cardrow"><div class="cn">08</div><div class="ce">“Make a small thing with five minutes of attention. Leave it here.”</div><div class="ci">Fai una piccola cosa con cinque minuti di attenzione. Lasciala qui.</div></div>
+    <div class="cardrow"><div class="cn">09</div><div class="ce">“Someone, before you, decided that a stranger deserved something. Now you decide.”</div><div class="ci">Qualcuno, prima di te, ha deciso che uno sconosciuto meritava qualcosa. Ora decidi tu.</div></div>
+    <div class="cardrow"><div class="cn">10</div><div class="ce">“What you hold was once on someone's mind. Leave something currently on yours.”</div><div class="ci">Quello che tieni in mano era nei pensieri di qualcuno. Lascia qualcosa che è nei tuoi.</div></div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 40 · EXHIBITION LOGIC -->
+<section class="page visual"><img src="img/fig-07.png" alt="Exhibition logic" />
+  <div class="vcap">Exhibition logic. How a week of exchanges becomes a wall, and the wall becomes memory.</div>
+</section>
+
+<!-- ============ BLOCK 03 ============ -->
+
+<!-- 41 · BLOCK 03 DIVIDER -->
+<section class="page divider">
+  <div class="num">BLOCK 03</div>
+  <div class="ttl">Project<br>Development</div>
+  <div class="sub">The relay read as a system, then prototyped.</div>
+  <div class="abs">Maps that show who and what acts on the relay, a journey and a chain narrated step by step, and a prototyping plan in three modes, one of which is built: a real interactive digital twin and a 3D artefact you can turn over.</div>
+  <div class="ix"><span>Ecosystem</span><span>Actors</span><span>Journey</span><span>Storyboard</span><span>Prototype</span></div>
+</section>
+
+<!-- 42 · THE RELAY AS A SYSTEM -->
+<section class="page">
+  <div class="running">Block 03 · System</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">The relay as a system</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The maps that follow are not illustrations of a finished idea. In this kind of design they are the design. Meroni, Selloni and Rossi call them boundary objects: drawings whose job is to let different people, a professor, a facility manager, a future curator, a passer-by, look at the same project and each see something they can act on.</p>
+    <p class="body" style="max-width:none;">So the ecosystem map, the actors map, the journey, and the storyboard are doing real analytical work. They turn a poetic idea, strangers in conversation through objects, into a system with parts that can be checked, staffed, and maintained.</p>
+    <p class="body" style="max-width:none;">The ecosystem map reads the relay in five layers, from the single exchange at the centre out to the institutions that would host it. The actors map names who and what acts on it, including the non-human actors. The journey follows one person through one complete loop. The storyboard follows one object through three hands and onto the wall.</p>
+    <p class="body" style="max-width:none;">Read together, they answer the question a sceptical reader should ask: not is this a nice idea, but does it hold together as a thing that could run.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 43 · ECOSYSTEM MAP -->
+<section class="page visual"><img src="img/fig-10.png" alt="Ecosystem map: five layers around the relay" />
+  <div class="vcap">Ecosystem map. Five layers, from the single exchange to the institutions that host it.</div>
+</section>
+
+<!-- 44 · ACTORS MAP -->
+<section class="page visual"><img src="img/fig-09.png" alt="Actors map: who acts on La Staffetta" />
+  <div class="vcap">Actors map. Human and non-human, everything that makes a difference to the relay.</div>
+</section>
+
+<!-- 45 · THE OBJECT THAT ACTS -->
+<section class="page">
+  <div class="running">Block 03 · Actors</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:26pt;">The object that acts</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The actors map includes things that are not people: the object pool, the prompt set, the weather, the empty cubby, time itself. This is not whimsy. Bruno Latour's argument is that anything that modifies a situation by making a difference is an actor, and that the interesting objects are mediators, not intermediaries. An intermediary just carries a message unchanged. A mediator transforms what passes through it.</p>
+    <p class="body" style="max-width:none;">The prompt card is a mediator in exactly this sense. It does not carry a message between two people; it transforms a left object into a relational gesture. The same folded paper, without a card, is litter or a free thing. With a card, it becomes the second link in a chain. The card changes what the object <em>is</em>.</p>
+    <p class="body" style="max-width:none;">Hannah Arendt names the deeper logic. To live together, she writes, means that a world of things sits between people, the way a table sits between those who gather around it, relating and separating them at once. The exchanged object is that table, miniaturised. It holds two strangers in relation precisely because it keeps them apart. They never meet, and the object is why they do not need to.</p>
+    <p class="body" style="max-width:none;">Designing the non-human actors well is therefore not a flourish. It is most of the work. The empty cubby invites. The weather threatens the paper. The prompt set sets the tone. The relay is the sum of what all of them do.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 46 · USER JOURNEY -->
+<section class="page visual"><img src="img/fig-08.png" alt="User journey: the Newcomer, one full loop" />
+  <div class="vcap">User journey. Mira the Newcomer, one full loop, from noticing to returning.</div>
+</section>
+
+<!-- 47 · THE JOURNEY NARRATED -->
+<section class="page">
+  <div class="running">Block 03 · Journey</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:26pt;">The journey, narrated</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;"><span class="mark">Notice.</span> Mira sees the cabinet from the path. The glowing cubbies read, even at distance, as something open. She does not approach yet. She files it.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Approach.</span> A day later, with a free hour, she comes closer because someone else is already there. The presence of one other person lowers the cost of being the second.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Take.</span> She opens a full cubby and lifts the object. The card slides forward. The action explained itself; she needed no sign.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Read.</span> The card asks something small and answerable. The threshold to contribute drops below the threshold to walk away.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Leave.</span> She puts something of her own in the now-empty cubby. The magenta goes quiet behind it. She has changed the state of the object, visibly.</p>
+    <p class="body" style="max-width:none;"><span class="mark">Return.</span> Days later she passes the exhibition wall and finds her contribution in a chain. This is the step a kiosk or a sign never reaches. She comes back not because she was invited, but because something of hers is still here, still moving. That return is the entire point.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 48 · STORYBOARD -->
+<section class="page visual"><img src="img/fig-11.jpg" alt="Storyboard: one full chain, three strangers who never meet" />
+  <div class="vcap">Storyboard. One chain across a week. Three strangers who never meet, and a wall.</div>
+</section>
+
+<!-- 49 · THE CHAIN IN THREE HANDS -->
+<section class="page">
+  <div class="running">Block 03 · The chain</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:25pt;">The chain, in three hands</h2>
+  <div class="flow3">
+    <p class="body first" style="max-width:none; font-size:10pt;"><span class="mark">Day 1 · Mira.</span> Mira folds a small paper crane and sets it in an empty cubby with the question that came to her: what is a place on this campus where you feel unwatched? She is not starting a project. She is answering a card. The chain begins without anyone deciding to begin it.</p>
+    <p class="body" style="max-width:none; font-size:10pt;"><span class="mark">Day 3 · Yusuf.</span> Yusuf takes the crane. His card refers to the gesture before him, someone made this with attention. He leaves a metro token from a city the campus has never heard him name, and adds a line about the stop he misses. Two strangers are now in conversation through a third thing, and neither knows the other's face.</p>
+    <p class="body" style="max-width:none; font-size:10pt;"><span class="mark">Day 5 · Lina.</span> Lina takes the token. She leaves a folded zine and invites the next person to add a page. Her card is the counted-chain card: you are the fourth. The relay has done her recruiting for her, quietly, while she was elsewhere.</p>
+    <p class="body" style="max-width:none; font-size:10pt;"><span class="mark">A week later · the wall.</span> The curator photographs the week's exchanges, object beside prompt, and pins them in order. The crane, the token, the zine, the questions between them. Three people who never met are now legibly one chain. The Ovale's quietest social fabric is, for the first time, visible to everyone walking past.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 50 · A PLAN IN THREE MODES -->
+<section class="page">
+  <div class="running">Block 03 · Prototyping plan</div>
+  <h2 class="sec" style="margin-top:14mm;">A plan, in three modes</h2>
+  <p class="body" style="max-width:235mm;">The plan articulates La Staffetta across three modes. They are not alternatives but three readings of one relay.</p>
+  <div class="grid3" style="margin-top:8mm;">
+    <div class="pcell">
+      <div class="pname" style="font-size:14pt;">Spatial</div>
+      <div class="pneed">Graphic action as stage</div>
+      <div class="pbody">The cabinet placed on the Ovale's path beside an existing bench, facing the sun. A thin magenta line is the only accent. Communicated as photomontage rather than a built one-to-one prototype.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:14pt;">Service</div>
+      <div class="pneed">Activating conversation</div>
+      <div class="pbody">The protocol: leave to take, take a prompt. A curated set of about fifty bilingual cards, refreshed each term. The card is the link that turns exchange into chain.</div>
+    </div>
+    <div class="pcell">
+      <div class="pname" style="font-size:14pt;">VR / AR</div>
+      <div class="pneed">Virtual interactions</div>
+      <div class="pbody">A digital twin, an AR app, and an interactive 3D cabinet make the chain, invisible in physical space because it accumulates over weeks, legible at a glance, and let remote participants follow it from anywhere.</div>
+    </div>
+  </div>
+  <p class="body" style="margin-top:9mm; max-width:235mm; color:var(--grey);">Each mode is built as a real, interactive web prototype. The twin, the prompt-card specimen, the AR app, and the 3D artefact run in a browser and can be opened live.</p>
+  <div class="pageno"></div>
+</section>
+
+<!-- 51 · THE DIGITAL TWIN -->
+<section class="page">
+  <div class="running">Block 03 · Digital twin</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:25pt;">The digital twin</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The VR/AR mode is not a mockup of an app. It is a small suite of working web pages, built and runnable in a browser, that together let someone experience the relay without standing in the Ovale.</p>
+    <p class="body" style="max-width:none;">The twin is the overview: the cabinet, the protocol, and the chain, explained as an interface. The prompt-card page is a typographic specimen of the full set, where the cards flip on tap to reveal their Italian, never on hover, because a cursor needs somewhere to rest and a phone has no hover at all.</p>
+    <p class="body" style="max-width:none;">The AR page is built app-first, with real chrome and a tab bar, so it reads as a product rather than a diagram. It carries the honest caveat that it is a simulation, not live camera AR.</p>
+    <p class="body" style="max-width:none;">All of it shares one design system with this booklet and the slides: the same magenta, the same two typefaces, the same refusal of em dashes and hover tricks. The point of building it for real, rather than drawing it, is that the relay's whole claim is about interaction. An interaction has to be tried to be judged.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 52 · THE 3D ARTEFACT -->
+<section class="page">
+  <div class="running">Block 03 · The 3D artefact</div>
+  <div class="split center" style="margin-top:12mm;">
+    <div class="col">
+      <div class="kicker">Final project · turn it over</div>
+      <h2 class="sec ink" style="font-size:24pt;">An artefact you<br>can turn over</h2>
+      <p class="body" style="margin-top:4mm;">The centre of the final project is an interactive 3D cabinet, built in real time and openable in any browser. You drag to rotate it, scroll to zoom, and click a cubby to read what a stranger left.</p>
+      <p class="body">It makes the cabinet's core idea physical without any plywood. Empty cubbies glow magenta; full ones go quiet behind their object; clicking one opens a panel with the object, who left it, and the prompt that travels with it. The concept's central decision, that emptiness is the invitation, becomes something you can see from every angle.</p>
+      <p class="body">This is the most direct answer to the brief's call for an interaction-driven proposal. It is not a render of the relay. It is a small, working piece of the relay.</p>
+    </div>
+    <div class="col">
+      <div class="imgframe"><img src="img/cabinet3d.jpg" alt="The interactive 3D Relay Cabinet, captured live from the browser: a maquette in one pale material, empty cubbies glowing magenta, the signed plinth below" /></div>
+      <div class="cap">The interactive 3D cabinet, captured live from the browser artefact. One material, so the only colour is the glow; the plinth is signed.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 53 · IT COULD BE BUILT -->
+<section class="page">
+  <div class="running">Block 03 · Feasibility</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">It could be built</h2>
+  <p class="lede" style="margin-top:5mm; max-width:218mm;">The proposal is digital and visual. It is not fantasy.</p>
+  <div class="flow2" style="margin-top:7mm;">
+    <p class="body first" style="max-width:none;">A pilot of one cabinet and a small exhibition wall sits within a student and DESIS Lab budget. Siberian larch gives a fifteen to twenty year outdoor life in Milan's climate without chemical treatment. Polimi's own Polifactory, the makerspace beside the School of Design, can cut the parts, and BRIChECO, the social carpentry that built the Kiosk of Reciprocity, would be the right partner to assemble it.</p>
+    <p class="body" style="max-width:none;">The maintenance model already exists a few steps away. Coltivando, the convivial garden on this campus, has run since 2011 on a small core of committed people. The relay would need roughly nine hours a month: restocking cards, photographing exchanges, refreshing the wall, a termly reset. That is realistic for two student curators or one intern.</p>
+    <p class="body" style="max-width:none;">Building it is not part of the brief. Naming what building it would take is what keeps the proposal honest, and it is why the next page exists.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 54 · OPERATIONAL APPENDIX -->
+<section class="page">
+  <div class="running">Block 03 · Operational appendix</div>
+  <h2 class="sec ink" style="margin-top:13mm; font-size:23pt;">If it were ever built</h2>
+  <p class="body" style="max-width:235mm; font-size:10pt; color:var(--grey);">Speculative reference, not a deployment plan. Compiled to show the proposal is grounded. The deliverables remain visual and interaction-driven.</p>
+  <div class="flow3" style="margin-top:6mm;">
+    <p class="body first" style="max-width:none; font-size:9.5pt;"><span class="mark">Material.</span> Siberian larch for the body, marine-grade phenolic plywood for the cubby walls, A2 or A4 stainless steel for every visible fastener against Milan's humid winters. Larch left to silver, or oiled once a year.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">Cost.</span> A realistic DESIS Lab pilot lands around one to two and a half thousand euro, with fabrication cost near zero if Polifactory or BRIChECO are involved. The worst-case bureaucratic figure is far higher, mostly hypothetical municipal occupation fees.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">Approval.</span> The path runs through the course team, then the DESIS Lab as institutional umbrella, then Polimi's Real Estate Center for the space. Framing it as a lab pilot lets it inherit existing approval routes rather than inventing one.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">Care.</span> Weekly restock and inspection, monthly wall refresh, termly reset and archive. The curator role is bound to a rotating thesis student, not an open-ended volunteer, so it does not quietly lapse.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">Ethics.</span> The hardest question is photography. The protocol is strict: photograph objects, never people; display only anonymous items; sign the station so anyone leaving something knows an anonymised photo may be pinned, with an opt-out tag for any cubby.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">Afterlife.</span> The physical relay disappears at end of cycle; the digital twin is the persistent legacy. The object pool is donated onward. The honest trade-off to name is the phenolic plywood, which cannot be cleanly recycled.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+
+<!-- 55 · THREE TEXTS -->
+<section class="page">
+  <div class="running">Grounding</div>
+  <h2 class="sec" style="margin-top:13mm; font-size:30pt;">Three texts</h2>
+  <div class="quotes">
+    <div class="quote">
+      <div class="q">“Building real connections requires a shared physical environment, a social infrastructure.”</div>
+      <div class="a">Eric Klinenberg, Palaces for the People (2018)</div>
+      <div class="tie">The relay is social infrastructure at the smallest scale: one cabinet that gives the Ovale a reason to hold people.</div>
+    </div>
+    <div class="quote">
+      <div class="q">“A world of things is between those who have it in common, as a table is located between those who sit around it; the world relates and separates men at the same time.”</div>
+      <div class="a">Hannah Arendt, The Human Condition (1958)</div>
+      <div class="tie">The left object is exactly this in-between thing: it relates two strangers who never meet, and keeps them apart.</div>
+    </div>
+    <div class="quote">
+      <div class="q">“Anything that does modify a state of affairs by making a difference is an actor.”</div>
+      <div class="a">Bruno Latour, Reassembling the Social (2005)</div>
+      <div class="tie">The object pool, the prompt set, the weather, and the empty cubby act on the relay as much as the people do.</div>
+    </div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 56 · HOW THE REFERENCES CONVERSE -->
+<section class="page">
+  <div class="running">Grounding · one position</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:24pt;">Three texts, one position</h2>
+  <div class="flow3">
+    <p class="body first" style="max-width:none; font-size:9.5pt;"><span class="mark">On public space.</span> The line runs Arendt to Jacobs to Oldenburg to Klinenberg to Sennett. Arendt gives the space of appearance and the table that relates and separates. Jacobs turns it into the sidewalk's web of casual contact. Oldenburg names the form that contact needs, the third place. Klinenberg insists that form is social infrastructure, and must be designed. Sennett gives the spatial grammar: porous borders, not sealed walls.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">On objects and strangers.</span> The line runs Latour to Goffman to Norman to Sennett again. Latour: objects are actors that transform what passes through them. Goffman: between strangers the rule is civil inattention, acknowledgement without obligation. Norman: an object can afford an action and signify where it happens, wordlessly. Sennett: the exchange the relay wants is dialogic, valuable because it does not aim at a single conclusion.</p>
+    <p class="body" style="max-width:none; font-size:9.5pt;"><span class="mark">On the course lineage.</span> The line runs Manzini to Fassi to Meroni, Selloni and Rossi. Manzini: design for social innovation, the designer as facilitator of diffuse design. Fassi: temporary urban solutions as the medium, the city as actress. Meroni and colleagues: co-design as method, boundary objects and prototypes as the working material this very booklet is made of. Bauman names the condition all three answer: civility with strangers in a liquid age. La Staffetta is where the three lines meet.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 57 · WHAT THE RELAY TAUGHT ME -->
+<section class="page">
+  <div class="running">Reflection</div>
+  <h2 class="sec ink" style="margin-top:14mm; font-size:27pt;">What the relay taught me</h2>
+  <div class="flow2">
+    <p class="body first" style="max-width:none;">The hardest part of this project was resisting the urge to make it bigger. Every review tempted me toward more cubbies, a screen, an app at the centre, a programme of events. Each addition would have made the relay easier to present and worse at its job.</p>
+    <p class="body" style="max-width:none;">The discipline the course really taught me is subtraction. The strongest move in the whole design is a negative one: painting magenta only inside, so that nothing is the loudest thing on the object. The second strongest is the card's refusal to ask your name. The relay works because of what it declines to do.</p>
+    <p class="body" style="max-width:none;">I also learned to trust the object over the interface. It would have been easier, as someone comfortable with screens, to lead with the app. But the physical cabinet carries the meaning, and the digital twin is reach and memory, not the project. Building the twin for real taught me where the screen helps, making an invisible chain legible, and where it would have intruded.</p>
+    <p class="body" style="max-width:none;">If the relay ever stands in the Ovale, I will not be the author of most of what it holds. That is the point. The work was to design the smallest honest condition under which strangers do the rest, and then to step back. Belonging is not about being invited to stay. It is about having a reason to return.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 58 · CLOSING CLAIM -->
+<section class="page statement" style="justify-content:center;">
+  <div>
+    <div class="eyebrow">Democracy, Togetherness and Civicness</div>
+    <div class="big" style="margin-top:8mm; font-size:54pt;">Belonging is not about being invited to stay. It is about having a reason to return.</div>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 59 · REFERENCES + CREDITS -->
+<section class="page">
+  <div class="running">References and credits</div>
+  <h2 class="sec" style="margin-top:13mm; font-size:26pt;">References</h2>
+  <div class="refs">
+    <p>Arendt, H. (1958). <em>The Human Condition.</em> University of Chicago Press.</p>
+    <p>Bauman, Z. (2000). <em>Liquid Modernity.</em> Polity Press.</p>
+    <p>Fassi, D. (2012). <em>Temporary Urban Solutions.</em> Maggioli.</p>
+    <p>Goffman, E. (1963). <em>Behavior in Public Places.</em> The Free Press.</p>
+    <p>Jacobs, J. (1961). <em>The Death and Life of Great American Cities.</em> Random House.</p>
+    <p>Klinenberg, E. (2018). <em>Palaces for the People.</em> Crown.</p>
+    <p>Latour, B. (2005). <em>Reassembling the Social.</em> Oxford University Press.</p>
+    <p>Manzini, E. (2015). <em>Design, When Everybody Designs.</em> MIT Press.</p>
+    <p>Meroni, A., Selloni, D., Rossi, M. (2018). <em>Massive Codesign.</em> FrancoAngeli.</p>
+    <p>Norman, D. (2013). <em>The Design of Everyday Things,</em> rev. ed. Basic Books.</p>
+    <p>Oldenburg, R. (1989). <em>The Great Good Place.</em> Marlowe &amp; Company.</p>
+    <p>Sennett, R. (2012). <em>Together.</em> Yale University Press.</p>
+    <p>Sennett, R. (2018). <em>Building and Dwelling.</em> Allen Lane.</p>
+    <p>Constructlab, TempoRiuso (2024). <em>Kiosk of Reciprocity,</em> Milan.</p>
+    <p>Polimi DESIS Lab (2024). <em>Regine di Periferia,</em> Milan.</p>
+    <p>Polimi DESIS Lab (since 2011). <em>Coltivando,</em> Campus Bovisa.</p>
+    <p>TIUS students under D. Fassi (2013-14). <em>BO LEGGE,</em> Campus Bovisa.</p>
+  </div>
+  <div style="margin-top:10mm;">
+    <div class="eyebrow">Credits</div>
+    <p class="credits" style="margin-top:3mm; max-width:235mm;">Concept, design, and writing by Efe Eren Can Bakır. With the TIUS course team, Ambra Borin, Elena Giunta, and Marco Biferale. Polimi DESIS Lab, School of Design, Politecnico di Milano. Renders are AI-assisted design studies, not photographs of a built installation. The 3D cabinet is a real-time browser artefact. Typeset in Antarctica Beta VAR and Editorial New.</p>
+  </div>
+  <div class="pageno"></div>
+</section>
+
+<!-- 60 · BACK COVER -->
+<section class="page" style="display:flex; align-items:flex-end;">
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;">
+    <div class="display" style="font-size:30pt; color:var(--magenta);">La Staffetta <span style="color:var(--ink)">·</span> The Relay</div>
+    <div class="eyebrow">TIUS 2026 · Politecnico di Milano</div>
+  </div>
+</section>
+
+</body>
+</html>
